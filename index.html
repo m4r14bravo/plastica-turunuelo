@@ -1,0 +1,2377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plástica — Las Caras de El Turuñuelo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════
+   RESET & VARIABLES — cuaderno de bocetos, modo claro
+═══════════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  /* Fondos claros — papel envejecido */
+  --bg:       #F2EDE3;
+  --bg2:      #E8E1D4;
+  --bg3:      #DDD5C4;
+
+  /* Papel / tinta */
+  --papel:    #FDFAF5;
+  --papel2:   #F2EDE3;
+  --papel3:   #DDD5C4;
+  --tinta:    #1A1510;
+
+  /* Terracota */
+  --td:       #7B2D1A;
+  --tm:       #A0402A;
+  --tc:       #FAE8E2;
+  --tx2:      #A0402A;
+
+  /* Ocre */
+  --oc:       #7A5A0A;
+  --ocl:      #FFF3CC;
+
+  /* Carboncillo — texto secundario */
+  --carb:     #4A3F35;
+  --carbl:    #6B5E52;
+
+  /* Verde musgo WCDI */
+  --vd:       #2E5E2E;
+  --vc:       #E8F5E9;
+
+  /* Azul pizarra */
+  --az:       #1A3A5C;
+  --acl:      #E0EAF4;
+
+  /* Rojo error */
+  --ro:       #8B1A1A;
+  --rcl:      #FFEBEB;
+
+  --r: 4px; --rs: 3px;
+  --sh: 0 2px 12px rgba(0,0,0,.10);
+  --sh2: 0 1px 6px rgba(0,0,0,.08);
+}
+
+html{scroll-behavior:smooth}
+body{
+  font-family:'Crimson Pro',Georgia,serif;
+  background:var(--bg);
+  color:var(--tinta);
+  font-size:16px;line-height:1.7;
+  min-height:100vh;
+}
+
+/* ═══════════════════════════════════════
+   TEXTURA DE FONDO — grano de papel
+═══════════════════════════════════════ */
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  opacity:.5;
+}
+
+.page-wrap{position:relative;z-index:1;max-width:900px;margin:0 auto;padding:0 0 80px}
+
+/* ═══════════════════════════════════════
+   HEADER
+═══════════════════════════════════════ */
+.site-header{
+  padding:48px 40px 36px;
+  border-bottom:2px solid var(--bg3);
+  position:relative;overflow:hidden;
+  background:var(--papel);
+}
+.site-header::after{
+  content:'';position:absolute;bottom:0;left:40px;right:40px;
+  height:2px;
+  background:linear-gradient(90deg,transparent,var(--td),var(--oc),var(--td),transparent);
+}
+.header-sup{
+  font-family:'Space Mono',monospace;font-size:.68rem;
+  color:var(--td);letter-spacing:2.5px;text-transform:uppercase;
+  margin-bottom:14px;
+}
+.header-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.9rem,4vw,3rem);
+  font-weight:700;line-height:1.12;
+  color:var(--tinta);
+  margin-bottom:8px;
+}
+.header-title em{
+  font-style:italic;color:var(--td);
+}
+.header-sub{
+  font-family:'Crimson Pro',serif;font-style:italic;
+  font-size:1.05rem;color:var(--carbl);margin-bottom:20px;
+}
+.header-meta{
+  display:flex;gap:20px;flex-wrap:wrap;
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--carbl);letter-spacing:.5px;
+}
+.header-meta span{display:flex;align-items:center;gap:6px}
+.header-meta span::before{content:'—';color:var(--td)}
+
+/* Barra de progreso */
+.prog-wrap{
+  height:3px;background:var(--bg3);
+  margin-top:22px;border-radius:2px;overflow:hidden;
+}
+.prog-bar{
+  height:100%;width:0;border-radius:2px;
+  background:linear-gradient(90deg,var(--td),var(--tm),var(--oc));
+  transition:width .6s ease;
+}
+
+/* Botón generar código */
+.btn-generar{
+  display:inline-flex;align-items:center;gap:8px;margin-top:16px;
+  background:transparent;border:1.5px solid var(--td);
+  color:var(--td);border-radius:2px;padding:7px 16px;
+  font-family:'Space Mono',monospace;font-size:.72rem;
+  letter-spacing:.8px;cursor:pointer;
+  transition:border-color .2s,background .2s,color .2s;
+}
+.btn-generar:hover{
+  background:var(--td);color:#fff;
+}
+
+/* ═══════════════════════════════════════
+   NAV BLOQUES
+═══════════════════════════════════════ */
+.sesion-nav{
+  display:flex;background:var(--papel);
+  border-bottom:2px solid var(--bg3);
+  padding:0 40px;gap:0;
+}
+.sesion-tab{
+  font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:1px;
+  text-transform:uppercase;padding:16px 20px;
+  color:var(--carbl);border:none;background:none;cursor:pointer;
+  border-bottom:3px solid transparent;transition:all .2s;
+  white-space:nowrap;
+}
+.sesion-tab:hover{color:var(--tinta)}
+.sesion-tab.active{
+  color:var(--td);border-bottom-color:var(--td);
+}
+
+/* ═══════════════════════════════════════
+   SECCIONES / BLOQUES
+═══════════════════════════════════════ */
+.sesion{display:none;padding:40px}
+.sesion.active{display:block}
+
+/* Tarjeta de contenido (expositiva) */
+.papel-card{
+  background:var(--papel);color:var(--tinta);
+  border-radius:var(--r);padding:28px 32px;
+  margin-bottom:28px;
+  box-shadow:var(--sh);
+  border:1px solid var(--bg3);
+  position:relative;
+}
+.papel-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  border-radius:var(--r) var(--r) 0 0;
+  background:linear-gradient(90deg,var(--td),var(--tm));
+}
+.papel-card.az::before{background:linear-gradient(90deg,var(--az),#4A8AC0)}
+.papel-card.oc::before{background:linear-gradient(90deg,var(--oc),#B08A20)}
+.papel-card.vd::before{background:linear-gradient(90deg,var(--vd),#5A9A5A)}
+.papel-card.mo::before{background:linear-gradient(90deg,#5A1F8A,#9A5AC0)}
+/* .dark ahora es un panel con fondo oscuro — usado en intro galería */
+.papel-card.dark{
+  background:#2A2018;color:var(--papel);
+  border:none;
+}
+.papel-card.dark::before{background:linear-gradient(90deg,var(--td),var(--oc))}
+
+.card-title{
+  font-family:'Playfair Display',serif;
+  font-size:1.2rem;font-weight:700;
+  color:var(--td);margin-bottom:14px;
+  display:flex;align-items:center;gap:10px;
+}
+.papel-card.az .card-title{color:var(--az)}
+.papel-card.oc .card-title{color:var(--oc)}
+.papel-card.vd .card-title{color:var(--vd)}
+.papel-card.dark .card-title{color:#F0C8A0}
+
+.card-body p{
+  font-size:.98rem;margin-bottom:.8em;line-height:1.75;
+  color:var(--tinta);
+}
+.papel-card.dark .card-body p{color:#E8E0D4}
+.card-body p:last-child{margin-bottom:0}
+.card-body strong{color:var(--td)}
+.papel-card.az .card-body strong{color:var(--az)}
+.papel-card.vd .card-body strong{color:var(--vd)}
+.papel-card.dark .card-body strong{color:#F0C8A0}
+
+/* ═══════════════════════════════════════
+   PLACEHOLDERS DE IMAGEN
+═══════════════════════════════════════ */
+.img-placeholder{
+  background:var(--bg2);
+  border:1.5px dashed rgba(123,45,26,.3);
+  border-radius:var(--r);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:10px;padding:24px;color:var(--carbl);
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  text-align:center;letter-spacing:.5px;
+  min-height:200px;position:relative;
+}
+.img-placeholder .ph-icon{font-size:2rem;opacity:.5}
+.img-placeholder .ph-name{
+  color:var(--td);font-size:.72rem;
+  background:rgba(123,45,26,.08);padding:4px 10px;border-radius:2px;
+  border:1px solid rgba(123,45,26,.2);
+}
+.img-placeholder .ph-desc{font-size:.68rem;color:var(--carbl);max-width:200px;line-height:1.5}
+
+/* Galería de imágenes */
+.galeria{display:grid;gap:14px;margin-bottom:0}
+.galeria.col-3{grid-template-columns:repeat(3,1fr)}
+.galeria.col-2{grid-template-columns:repeat(2,1fr)}
+@media(max-width:640px){
+  .galeria.col-3,.galeria.col-2{grid-template-columns:1fr}
+}
+.galeria-item{position:relative;cursor:pointer;overflow:hidden;border-radius:var(--r)}
+.galeria-item img{
+  width:100%;height:200px;object-fit:cover;display:block;
+  transition:transform .4s;
+  border-radius:var(--r);
+}
+.galeria-item:hover img{transform:scale(1.04)}
+.galeria-item .img-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(0,0,0,.75));
+  color:#fff;font-family:'Space Mono',monospace;font-size:.65rem;
+  padding:20px 10px 8px;letter-spacing:.5px;
+  opacity:0;transition:opacity .3s;
+}
+.galeria-item:hover .img-caption{opacity:1}
+
+/* Lightbox */
+#lightbox{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);
+  z-index:9998;align-items:center;justify-content:center;
+  cursor:zoom-out;
+}
+#lightbox.open{display:flex}
+#lightbox img{max-width:90vw;max-height:88vh;object-fit:contain;border-radius:4px;}
+#lightbox-caption{
+  position:fixed;bottom:20px;left:50%;transform:translateX(-50%);
+  color:#ccc;font-family:'Space Mono',monospace;font-size:.72rem;
+  background:rgba(0,0,0,.7);padding:6px 16px;border-radius:2px;letter-spacing:.5px;
+}
+#lightbox-close{
+  position:fixed;top:20px;right:24px;color:#fff;font-size:1.8rem;
+  background:none;border:none;cursor:pointer;opacity:.7;
+}
+#lightbox-close:hover{opacity:1}
+
+/* ═══════════════════════════════════════
+   ACTIVIDADES — fondo ligeramente más oscuro
+   para distinguirlas del contenido expositivo
+═══════════════════════════════════════ */
+.actividad{
+  background:var(--papel);border:1.5px solid var(--bg3);
+  border-radius:var(--r);margin-bottom:28px;overflow:hidden;
+  box-shadow:var(--sh);
+}
+.act-header{
+  padding:16px 24px;
+  border-bottom:1.5px solid var(--bg3);
+  display:flex;align-items:baseline;gap:12px;
+  background:var(--bg2);
+}
+.act-num{
+  font-family:'Space Mono',monospace;font-size:.68rem;
+  color:var(--td);letter-spacing:1.5px;text-transform:uppercase;
+  background:rgba(123,45,26,.08);border:1px solid rgba(123,45,26,.2);
+  padding:3px 9px;border-radius:2px;white-space:nowrap;flex-shrink:0;
+}
+.act-header h3{
+  font-family:'Playfair Display',serif;font-size:1rem;
+  font-weight:700;color:var(--tinta);line-height:1.3;
+}
+.act-body{padding:20px 24px;background:var(--papel)}
+.act-footer{
+  padding:12px 24px;border-top:1.5px solid var(--bg3);
+  display:flex;gap:10px;align-items:center;flex-wrap:wrap;
+  background:var(--bg2);
+}
+.instruccion{
+  font-size:.9rem;color:var(--carb);margin-bottom:14px;
+  font-style:italic;line-height:1.6;
+}
+
+/* Botones */
+.btn-check{
+  padding:8px 20px;background:var(--td);color:#fff;
+  border:none;border-radius:var(--r);font-family:'Space Mono',monospace;
+  font-size:.72rem;letter-spacing:.5px;cursor:pointer;
+  transition:background .2s;
+}
+.btn-check:hover{background:var(--tm)}
+.btn-check.vd{background:var(--vd)}
+.btn-check.vd:hover{background:#3A7A3A}
+.btn-reset{
+  padding:8px 16px;background:transparent;color:var(--carb);
+  border:1.5px solid var(--bg3);border-radius:var(--r);
+  font-family:'Space Mono',monospace;font-size:.72rem;cursor:pointer;
+  transition:border-color .2s,color .2s;
+}
+.btn-reset:hover{border-color:var(--carb);color:var(--tinta)}
+.score-badge{
+  font-family:'Space Mono',monospace;font-size:.78rem;
+  padding:4px 12px;border-radius:2px;
+  background:var(--bg3);color:var(--carb);
+}
+
+/* Feedback */
+.feedback{
+  border-radius:var(--r);padding:0;font-size:.9rem;
+  max-height:0;overflow:hidden;transition:all .3s;
+  font-family:'Crimson Pro',serif;
+}
+.feedback.ok{
+  background:#E8F5E9;border:1.5px solid #A5D6A7;
+  color:#1B5E20;padding:10px 14px;max-height:80px;margin-top:10px;
+}
+.feedback.partial{
+  background:#FFF8E1;border:1.5px solid #FFD54F;
+  color:#7A5800;padding:10px 14px;max-height:80px;margin-top:10px;
+}
+.feedback.fail{
+  background:#FFEBEE;border:1.5px solid #EF9A9A;
+  color:#B71C1C;padding:10px 14px;max-height:120px;margin-top:10px;
+}
+
+/* ═══════════════════════════════════════
+   ACTIVIDAD 1 — ZONAS DE RELIEVE
+═══════════════════════════════════════ */
+.relieve-wrap{position:relative;display:inline-block;max-width:100%}
+.relieve-wrap svg{display:block}
+.relieve-zona{cursor:pointer;transition:opacity .2s}
+.relieve-zona:hover{opacity:.8}
+.relieve-info{
+  background:var(--bg2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);padding:14px 18px;margin-top:16px;
+  font-size:.92rem;line-height:1.7;min-height:60px;
+  transition:all .3s;
+  color:var(--carb);font-style:italic;
+}
+.relieve-info.activo{color:var(--tinta);font-style:normal;border-color:var(--td)}
+
+/* ═══════════════════════════════════════
+   ACTIVIDAD 2 — PROPORCIONES
+═══════════════════════════════════════ */
+.prop-wrap{
+  display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start;
+}
+@media(max-width:580px){.prop-wrap{grid-template-columns:1fr}}
+.prop-diagram{position:relative}
+.prop-diagram svg{display:block;width:100%;max-width:300px;margin:0 auto}
+.prop-drop-zone{
+  background:rgba(123,45,26,.04);
+  border:1.5px dashed rgba(123,45,26,.25);
+  border-radius:var(--r);padding:7px 12px;
+  margin-bottom:8px;min-height:36px;
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--carb);letter-spacing:.3px;
+  transition:border-color .2s,background .2s;
+  display:flex;align-items:center;gap:8px;
+}
+.prop-drop-zone.dragover{
+  border-color:var(--td);background:rgba(123,45,26,.08);
+}
+.prop-drop-zone.correcto{
+  border-color:var(--vd);background:#E8F5E9;color:#1B5E20;
+}
+.prop-drop-zone.incorrecto{
+  border-color:var(--ro);background:#FFEBEE;color:#B71C1C;
+}
+.prop-labels-bank{
+  display:flex;flex-direction:column;gap:7px;
+}
+.prop-label{
+  background:rgba(123,45,26,.07);border:1.5px solid rgba(123,45,26,.2);
+  border-radius:var(--r);padding:7px 12px;
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--td);cursor:grab;
+  transition:background .2s,transform .15s;user-select:none;
+}
+.prop-label:active{cursor:grabbing;transform:scale(1.02)}
+.prop-label.placed{opacity:.3;cursor:default;pointer-events:none}
+
+/* ═══════════════════════════════════════
+   ACTIVIDAD 3 — COMPARATIVA ESCULTÓRICA
+═══════════════════════════════════════ */
+.comp-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:20px}
+@media(max-width:800px){.comp-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.comp-grid{grid-template-columns:1fr}}
+.comp-pieza{
+  background:var(--bg2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);overflow:hidden;
+}
+.comp-img-wrap{height:200px;overflow:hidden}
+.comp-img-wrap img{width:100%;height:100%;object-fit:cover}
+.comp-nombre{
+  font-family:'Space Mono',monospace;font-size:.68rem;
+  color:var(--td);padding:10px 12px 6px;letter-spacing:.5px;
+  border-bottom:1px solid var(--bg3);font-weight:700;
+}
+.comp-tabla{width:100%;border-collapse:collapse;font-size:.78rem}
+.comp-tabla td{
+  padding:6px 10px;border-bottom:1px solid var(--bg3);
+  color:var(--tinta);vertical-align:top;
+}
+.comp-tabla tr:last-child td{border-bottom:none}
+.comp-tabla td:first-child{
+  color:var(--td);font-weight:600;font-size:.72rem;
+  font-family:'Space Mono',monospace;white-space:nowrap;
+}
+.obs-input{
+  width:100%;background:transparent;border:none;border-bottom:1px solid var(--bg3);
+  color:var(--tinta);font-family:'Crimson Pro',serif;font-size:.88rem;
+  padding:3px 0;resize:none;outline:none;line-height:1.5;
+}
+.obs-input::placeholder{color:var(--carbl);font-style:italic}
+.obs-input:focus{border-bottom-color:var(--td)}
+
+/* ═══════════════════════════════════════
+   GUÍA DE BOCETO
+═══════════════════════════════════════ */
+.boceto-pasos{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:14px;
+}
+@media(max-width:640px){.boceto-pasos{grid-template-columns:repeat(2,1fr)}}
+.boceto-paso{
+  background:var(--bg2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);padding:16px 14px;text-align:center;
+}
+.boceto-paso-num{
+  font-family:'Space Mono',monospace;font-size:.62rem;
+  color:var(--td);letter-spacing:1px;margin-bottom:10px;
+}
+.boceto-paso-svg{margin:0 auto 10px;display:block}
+.boceto-paso-txt{
+  font-size:.82rem;color:var(--carb);line-height:1.5;
+}
+.boceto-paso-txt strong{color:var(--tinta);display:block;margin-bottom:3px;font-size:.86rem}
+
+/* ═══════════════════════════════════════
+   ACTIVIDAD 4 B2 — FLUJO FOTOGRAMETRÍA
+═══════════════════════════════════════ */
+.flujo-wrap{
+  display:flex;align-items:center;gap:0;
+  overflow-x:auto;padding:16px 0;
+  scrollbar-width:thin;
+}
+.flujo-paso{
+  flex-shrink:0;text-align:center;width:110px;cursor:pointer;
+  transition:transform .2s;
+}
+.flujo-paso:hover{transform:translateY(-4px)}
+.flujo-icono{
+  width:64px;height:64px;border-radius:50%;
+  background:var(--bg2);border:2px solid var(--bg3);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.6rem;margin:0 auto 10px;
+  transition:border-color .2s,background .2s;
+}
+.flujo-paso.activo .flujo-icono{
+  border-color:var(--td);background:rgba(123,45,26,.08);
+}
+.flujo-paso-txt{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  color:var(--carb);letter-spacing:.3px;line-height:1.4;
+}
+.flujo-flecha{
+  color:var(--bg3);font-size:1.2rem;
+  flex-shrink:0;margin:0 4px;align-self:center;
+  margin-top:-20px;
+}
+.flujo-detalle{
+  background:var(--bg2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);padding:16px 20px;margin-top:16px;
+  font-size:.92rem;color:var(--carb);font-style:italic;
+  min-height:60px;transition:all .3s;
+}
+.flujo-detalle.activo{color:var(--tinta);font-style:normal;border-color:var(--td)}
+
+/* ═══════════════════════════════════════
+   CHECKLIST MESHY
+═══════════════════════════════════════ */
+.checklist{display:flex;flex-direction:column;gap:8px}
+.check-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--papel2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);padding:12px 16px;cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.check-item:hover{background:var(--papel3)}
+.check-item.done{
+  background:#E8F5E9;border-color:#A5D6A7;
+}
+.check-box{
+  width:20px;height:20px;border:1.5px solid rgba(123,45,26,.3);
+  border-radius:2px;flex-shrink:0;margin-top:2px;
+  display:flex;align-items:center;justify-content:center;
+  transition:all .2s;font-size:.85rem;
+}
+.check-item.done .check-box{
+  background:var(--vd);border-color:var(--vd);color:#fff;
+}
+.check-content{flex:1}
+.check-titulo{
+  font-family:'Crimson Pro',serif;font-size:.95rem;
+  color:var(--tinta);font-weight:600;line-height:1.3;
+}
+.check-item.done .check-titulo{color:var(--carbl);text-decoration:line-through}
+.check-desc{
+  font-size:.85rem;color:var(--carb);margin-top:3px;line-height:1.5;
+}
+.check-progress{
+  font-family:'Space Mono',monospace;font-size:.72rem;
+  color:var(--td);margin-bottom:12px;
+}
+.check-prog-bar{
+  height:3px;background:var(--bg3);border-radius:2px;
+  margin-bottom:16px;overflow:hidden;
+}
+.check-prog-fill{
+  height:100%;background:linear-gradient(90deg,var(--vd),#5A9A5A);
+  border-radius:2px;transition:width .4s ease;width:0%;
+}
+
+/* ═══════════════════════════════════════
+   REFLEXIÓN ABIERTA
+═══════════════════════════════════════ */
+.reflexion-pregunta{margin-bottom:22px}
+.reflexion-pregunta label{
+  display:block;font-family:'Playfair Display',serif;
+  font-size:.95rem;font-weight:700;color:var(--tinta);
+  margin-bottom:8px;line-height:1.4;
+}
+.reflexion-pregunta label .num-ref{
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--td);margin-right:8px;
+}
+.reflexion-textarea{
+  width:100%;background:var(--papel2);
+  border:1.5px solid var(--bg3);border-radius:var(--r);
+  color:var(--tinta);font-family:'Crimson Pro',serif;font-size:.95rem;
+  padding:12px 16px;resize:vertical;min-height:80px;outline:none;
+  transition:border-color .2s;line-height:1.6;
+}
+.reflexion-textarea:focus{border-color:var(--td)}
+.reflexion-textarea::placeholder{color:var(--carbl);font-style:italic}
+.chars-left{
+  font-family:'Space Mono',monospace;font-size:.65rem;
+  color:var(--carbl);text-align:right;margin-top:3px;
+}
+
+/* ═══════════════════════════════════════
+   WE CAN DO IT
+═══════════════════════════════════════ */
+.wcdi-bloque{
+  border:1.5px solid #A5D6A7;
+  border-radius:var(--r);background:#F1F8F1;
+  padding:24px 28px;margin-bottom:28px;
+}
+.wcdi-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Space Mono',monospace;font-size:.7rem;
+  color:var(--vd);letter-spacing:1px;text-transform:uppercase;
+  background:#E8F5E9;border:1px solid #A5D6A7;
+  padding:4px 12px;border-radius:2px;margin-bottom:14px;
+}
+.wcdi-bloque h3{
+  font-family:'Playfair Display',serif;font-size:1.1rem;
+  color:#1B5E20;margin-bottom:10px;
+}
+.wcdi-bloque p{
+  font-size:.92rem;color:#2E4A2E;line-height:1.75;margin-bottom:.8em;
+}
+.wcdi-bloque p:last-of-type{margin-bottom:0}
+.wcdi-bloque strong{color:#1B5E20}
+
+/* Tarjetas flip WCDI */
+.wcdi-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:16px}
+@media(max-width:600px){.wcdi-cards{grid-template-columns:1fr}}
+.flip-card{height:180px;perspective:800px;cursor:pointer}
+.flip-inner{
+  position:relative;width:100%;height:100%;
+  transform-style:preserve-3d;transition:transform .5s;
+}
+.flip-card.flipped .flip-inner{transform:rotateY(180deg)}
+.flip-front,.flip-back{
+  position:absolute;inset:0;backface-visibility:hidden;
+  border-radius:var(--r);padding:18px;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;
+  text-align:center;border:1.5px solid #A5D6A7;
+}
+.flip-front{background:#E8F5E9}
+.flip-back{background:#D4EDDA;transform:rotateY(180deg)}
+.flip-front .nombre{
+  font-family:'Playfair Display',serif;font-size:.95rem;
+  font-weight:700;color:#1B5E20;line-height:1.3;margin-bottom:6px;
+}
+.flip-front .rol-hint{
+  font-family:'Space Mono',monospace;font-size:.65rem;
+  color:#4A7A4A;letter-spacing:.5px;
+}
+.flip-back p{
+  font-size:.78rem;color:#2E4A2E;line-height:1.5;margin:0;
+}
+.flip-hint{
+  font-family:'Space Mono',monospace;font-size:.6rem;
+  color:#7ABD7A;text-align:center;margin-top:10px;letter-spacing:.5px;
+}
+
+/* ═══════════════════════════════════════
+   V/F
+═══════════════════════════════════════ */
+.vf-list{display:flex;flex-direction:column;gap:8px}
+.vf-item{
+  display:flex;align-items:flex-start;gap:12px;
+  background:var(--papel2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);padding:12px 16px;
+}
+.vf-item.correct{background:#E8F5E9;border-color:#A5D6A7}
+.vf-item.wrong{background:#FFEBEE;border-color:#EF9A9A}
+.vf-text{flex:1;font-size:.92rem;color:var(--tinta)}
+.vf-explain{
+  display:none;margin-top:8px;font-size:.85rem;font-style:italic;
+  color:var(--carb);background:rgba(0,0,0,.04);
+  border-radius:var(--r);padding:8px 12px;line-height:1.5;
+}
+.vf-item.correct .vf-explain,.vf-item.wrong .vf-explain{display:block}
+.vf-btns{display:flex;gap:6px;flex-shrink:0}
+.vf-btn{
+  width:36px;height:36px;border-radius:2px;border:1.5px solid var(--bg3);
+  background:var(--papel);color:var(--carb);font-family:'Space Mono',monospace;
+  font-size:.8rem;font-weight:700;cursor:pointer;transition:all .2s;
+}
+.vf-btn:hover{border-color:var(--td);color:var(--td)}
+.vf-btn.v-sel{background:#E8F5E9;border-color:var(--vd);color:#1B5E20}
+.vf-btn.f-sel{background:#FFEBEE;border-color:var(--ro);color:#B71C1C}
+
+/* ═══════════════════════════════════════
+   MODALES — ya son claros, solo ajustar codigo-box
+═══════════════════════════════════════ */
+.inf-overlay{
+  display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);
+  z-index:9999;backdrop-filter:blur(4px);align-items:center;justify-content:center;
+}
+.inf-overlay.open{display:flex}
+.inf-modal{
+  background:var(--papel);color:var(--tinta);
+  border-radius:4px;max-width:660px;width:94%;max-height:90vh;
+  overflow:hidden;display:flex;flex-direction:column;
+  box-shadow:0 8px 40px rgba(0,0,0,.3);
+}
+.inf-mh{
+  background:var(--td);color:#fff;padding:16px 22px;
+  display:flex;align-items:center;justify-content:space-between;flex-shrink:0;
+}
+.inf-mh h2{font-family:'Playfair Display',serif;font-size:.95rem;font-weight:700;margin:0}
+.inf-mh.doc{background:var(--az)}
+.inf-mclose{background:none;border:none;color:#fff;font-size:1.4rem;cursor:pointer;opacity:.7;line-height:1;padding:0 4px}
+.inf-mclose:hover{opacity:1}
+.inf-mbody{overflow-y:auto;padding:22px;flex:1}
+.inf-mfooter{padding:12px 22px;border-top:1.5px solid var(--bg3);display:flex;gap:10px;flex-wrap:wrap;align-items:center;background:var(--papel2);flex-shrink:0}
+.inf-aviso{background:#FFF8E1;border:1.5px solid #FFD54F;border-radius:var(--r);padding:10px 14px;font-size:.83rem;color:#7A5800;margin-bottom:14px;display:none}
+.inf-aviso.visible{display:block}
+.inf-resumen{background:var(--tc);border-radius:var(--r);padding:10px 14px;font-size:.86rem;font-weight:600;color:var(--td);margin-bottom:16px}
+.inf-tabla{width:100%;border-collapse:collapse;font-size:.82rem;margin-bottom:16px}
+.inf-tabla th{background:var(--papel2);color:var(--td);padding:6px 10px;text-align:left;font-weight:700;font-family:'Space Mono',monospace;font-size:.72rem;border-bottom:2px solid var(--bg3);letter-spacing:.3px}
+.inf-tabla td{padding:5px 10px;border-bottom:1px solid var(--bg3);vertical-align:middle}
+.inf-tabla tr:last-child td{border-bottom:none}
+.inf-pill{display:inline-block;padding:2px 9px;border-radius:10px;font-size:.75rem;font-weight:600;font-family:'Space Mono',monospace}
+.inf-pill.ok{background:#E8F5E9;color:#1B5E20}
+.inf-pill.par{background:#FFF8E1;color:#7A5800}
+.inf-pill.mal{background:#FFEBEE;color:#B71C1C}
+.inf-pill.pend{background:#F0F0F0;color:#888}
+.inf-pill.txt{background:#EEF0FF;color:#3A3A8A}
+.ini-wrap{display:flex;gap:10px;align-items:center;margin-bottom:16px;flex-wrap:wrap}
+.ini-wrap label{font-size:.72rem;font-weight:600;color:var(--td);white-space:nowrap;font-family:'Space Mono',monospace;letter-spacing:.3px}
+.ini-input{width:100px;padding:7px 11px;border:1.5px solid var(--bg3);border-radius:var(--r);font-size:.88rem;font-family:'Space Mono',monospace;background:var(--papel);color:var(--tinta)}
+.ini-input:focus{outline:none;border-color:var(--tm)}
+.codigo-box{background:var(--bg2);color:var(--carb);border:1.5px solid var(--bg3);border-radius:var(--r);padding:12px 14px;font-family:'Space Mono',monospace;font-size:.72rem;word-break:break-all;max-height:90px;overflow-y:auto;margin-bottom:12px;display:none}
+.codigo-box.visible{display:block}
+.btn-inf{padding:8px 18px;border-radius:var(--r);font-family:'Space Mono',monospace;font-size:.72rem;font-weight:700;cursor:pointer;border:1.5px solid;letter-spacing:.3px}
+.btn-inf.prim{background:var(--td);color:#fff;border-color:var(--td)}
+.btn-inf.prim:hover{background:var(--tm)}
+.btn-inf.prim.doc{background:var(--az);border-color:var(--az)}
+.btn-inf.sec{background:var(--papel);color:var(--carb);border-color:var(--bg3)}
+.btn-inf.sec:hover{background:var(--papel2)}
+.btn-inf.cop{background:var(--vd);color:#fff;border-color:var(--vd);display:none}
+.btn-inf.cop.visible{display:inline-flex;align-items:center;gap:6px}
+.copy-ok{font-size:.78rem;color:var(--vd);font-weight:600;display:none;font-family:'Space Mono',monospace}
+.copy-ok.visible{display:block}
+.doc-paste{width:100%;padding:10px 12px;border:1.5px solid var(--bg3);border-radius:var(--r);font-family:'Space Mono',monospace;font-size:.74rem;resize:vertical;min-height:70px;background:var(--papel);color:var(--tinta);margin-bottom:12px}
+.doc-paste:focus{outline:none;border-color:var(--az)}
+.doc-resultado{display:none;margin-top:16px}
+.doc-resultado.visible{display:block}
+.doc-alumno{background:var(--acl);border-radius:var(--r);padding:10px 14px;margin-bottom:14px;font-size:.86rem}
+.doc-alumno strong{color:var(--az)}
+.doc-badge{display:inline-block;padding:3px 12px;border-radius:10px;font-weight:700;font-size:.88rem;font-family:'Space Mono',monospace;margin-left:8px;vertical-align:middle}
+
+/* ═══════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════ */
+@media(max-width:680px){
+  .sesion{padding:24px 18px}
+  .papel-card{padding:20px 18px}
+  .act-body,.act-footer,.act-header{padding-left:16px;padding-right:16px}
+  .site-header{padding:32px 20px 28px}
+  .sesion-nav{padding:0 18px}
+  .comp-grid{grid-template-columns:1fr}
+  .boceto-pasos{grid-template-columns:repeat(2,1fr)}
+  .flujo-wrap{gap:0}
+}
+
+/* ═══════════════════════════════════════
+   CLASIFICACIÓN
+═══════════════════════════════════════ */
+.clasif-banco{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;padding:16px;background:var(--papel2);border:1.5px dashed var(--bg3);border-radius:var(--r)}
+.clasif-chip{
+  background:rgba(123,45,26,.07);border:1.5px solid rgba(123,45,26,.2);
+  border-radius:2px;padding:6px 12px;
+  font-family:'Crimson Pro',serif;font-size:.88rem;color:var(--td);
+  cursor:grab;user-select:none;transition:background .15s;
+}
+.clasif-chip:active{cursor:grabbing}
+.clasif-chip:hover{background:rgba(123,45,26,.13)}
+.clasif-zonas{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:0}
+@media(max-width:620px){.clasif-zonas{grid-template-columns:1fr}}
+.clasif-zona{
+  border-radius:var(--r);border:1.5px dashed var(--bg3);
+  min-height:100px;transition:border-color .2s,background .2s;
+  background:var(--papel2);
+}
+.clasif-zona.dragover{border-color:var(--td);background:rgba(123,45,26,.06)}
+.clasif-zona-header{
+  font-family:'Space Mono',monospace;font-size:.68rem;letter-spacing:1px;
+  text-transform:uppercase;padding:10px 12px 8px;
+  border-bottom:1px solid var(--bg3);color:var(--carb);font-weight:700;
+}
+.clasif-zona[data-cat='bulto']   .clasif-zona-header{color:#6A2F8A}
+.clasif-zona[data-cat='relieve'] .clasif-zona-header{color:var(--td)}
+.clasif-zona[data-cat='grabado'] .clasif-zona-header{color:var(--az)}
+.clasif-zona-chips{display:flex;flex-direction:column;gap:5px;padding:8px}
+.clasif-placed{
+  background:var(--papel);border:1.5px solid var(--bg3);
+  border-radius:2px;padding:5px 9px;font-size:.82rem;color:var(--tinta);
+  cursor:grab;transition:background .2s;
+}
+
+/* ═══════════════════════════════════════
+   MATCHING
+═══════════════════════════════════════ */
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 16px;align-items:start}
+@media(max-width:560px){.match-grid{grid-template-columns:1fr}}
+.match-col{display:flex;flex-direction:column;gap:8px}
+.match-col-title{
+  font-family:'Space Mono',monospace;font-size:.65rem;
+  color:var(--carb);letter-spacing:1px;text-transform:uppercase;
+  margin-bottom:4px;font-weight:700;
+}
+.match-item{
+  background:var(--papel2);border:1.5px solid var(--bg3);
+  border-radius:var(--r);padding:10px 14px;
+  font-size:.9rem;color:var(--tinta);cursor:pointer;
+  transition:border-color .2s,background .2s;
+  user-select:none;
+}
+.match-item:hover{border-color:var(--td);background:rgba(123,45,26,.04)}
+.match-item.sel{border-color:var(--td);background:rgba(123,45,26,.08);color:var(--td)}
+.match-item.matched{border-color:var(--vd);background:#E8F5E9;color:#1B5E20;cursor:default;pointer-events:none}
+.match-item.wrong-flash{border-color:var(--ro);background:#FFEBEE}
+
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- HEADER -->
+  <div class="site-header">
+    <div class="header-sup">Educación Plástica, Visual y Audiovisual · 1.º ESO · Proyecto STEAM We Can Do It</div>
+    <h1 class="header-title">Las caras de <em>El Turuñuelo</em></h1>
+    <p class="header-sub">Análisis escultórico, proporción y patrimonio digital</p>
+    <div class="header-meta">
+      <span>2 bloques</span>
+      <span>Trabajo individual y en grupo</span>
+      <span>Meshy · Impresión 3D</span>
+    </div>
+    <div class="prog-wrap"><div class="prog-bar" id="global-progress"></div></div>
+    <button class="btn-generar" onclick="abrirModalAlumno()">▣ Generar código de entrega</button>
+  </div>
+
+  <!-- NAV BLOQUES -->
+  <nav class="sesion-nav">
+    <button class="sesion-tab active" onclick="mostrarSesion('s1',this)">Bloque 1 — Mirar para dibujar</button>
+    <button class="sesion-tab" onclick="mostrarSesion('s2',this)">Bloque 2 — De la foto al modelo 3D</button>
+  </nav>
+
+  <!-- ══════════════════════════════════════════════
+       BLOQUE 1 — Análisis formal y boceto
+  ══════════════════════════════════════════════ -->
+  <div class="sesion active" id="s1">
+
+    <!-- Galería de introducción -->
+    <div class="papel-card dark">
+      <div class="card-title">🗿 Las caras que nadie esperaba</div>
+      <div class="card-body">
+        <p>En 2023, el equipo que excavaba <strong>El Turuñuelo</strong> (Guareña, Badajoz) descubrió algo sin precedentes: una serie de <strong>relieves en adobe</strong> que representaban rostros humanos en la fachada del edificio. Es la primera vez que se encuentran representaciones figurativas de este tipo en toda la protohistoria del interior de la Península Ibérica.</p>
+        <p>Hoy vamos a mirar estas caras como <strong>artistas</strong>, no solo como historiadores. ¿Qué técnica usaron? ¿Qué proporciones tienen? ¿En qué se parecen y en qué se diferencian de otras esculturas de su época?</p>
+      </div>
+    </div>
+
+    <!-- Galería fotos -->
+    <div class="papel-card dark" style="padding-bottom:24px">
+      <div class="card-title">📷 Las caras — imágenes del yacimiento</div>
+      <div class="galeria col-3" style="margin-top:4px">
+        <div class="galeria-item" onclick="abrirLightbox('assets/cara-01.jpg','Cara de El Turuñuelo — exposición en el museo')">
+          <div class="img-placeholder">
+            <span class="ph-icon">🗿</span>
+            <span class="ph-name">assets/cara-01.jpg</span>
+            <span class="ph-desc">Foto frontal de una cara en el museo</span>
+          </div>
+          <div class="img-caption">Vista frontal</div>
+        </div>
+        <div class="galeria-item" onclick="abrirLightbox('assets/cara-02.jpg','Cara de El Turuñuelo — detalle del relieve en adobe')">
+          <div class="img-placeholder">
+            <span class="ph-icon">🔍</span>
+            <span class="ph-name">assets/cara-02.jpg</span>
+            <span class="ph-desc">Detalle de otra cara o ángulo diferente</span>
+          </div>
+          <div class="img-caption">Detalle del relieve</div>
+        </div>
+        <div class="galeria-item" onclick="abrirLightbox('assets/cara-03.jpg','Caras de El Turuñuelo — sala del museo')">
+          <div class="img-placeholder">
+            <span class="ph-icon">🏛️</span>
+            <span class="ph-name">assets/cara-03.jpg</span>
+            <span class="ph-desc">Tercera cara o conjunto de piezas expuestas</span>
+          </div>
+          <div class="img-caption">En el museo</div>
+        </div>
+      </div>
+      <p style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--carbl);margin-top:12px;letter-spacing:.3px;">
+        Fotografías de las piezas expuestas en el museo. Clic en cada imagen para ampliar.
+      </p>
+    </div>
+
+    <!-- ACTIVIDAD 1 — Planos del relieve -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 1 · Bloque 1</span>
+        <h3>Identifica los planos del relieve</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Haz clic en cada zona coloreada del diagrama para descubrir qué tipo de plano es y qué función cumple en el relieve.</p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start">
+          <div>
+            <!-- SVG esquemático del relieve con zonas clicables -->
+            <svg viewBox="0 0 260 320" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:280px;display:block;border-radius:4px;background:#1A1612">
+              <!-- Fondo -->
+              <rect width="260" height="320" fill="#2A2218" rx="4"/>
+              <!-- Zona 4: fondo más profundo (plano 0) -->
+              <rect id="rz4" x="40" y="40" width="180" height="240" rx="3"
+                fill="#3A3020" stroke="rgba(200,122,90,.2)" stroke-width="1.5"
+                class="relieve-zona" onclick="mostrarZonaRelieve(4)" style="cursor:pointer"/>
+              <!-- Zona 3: plano bajo -->
+              <ellipse id="rz3" cx="130" cy="160" rx="75" ry="95"
+                fill="#4A3A28" stroke="rgba(200,122,90,.3)" stroke-width="1.5"
+                class="relieve-zona" onclick="mostrarZonaRelieve(3)" style="cursor:pointer"/>
+              <!-- Zona 2: plano medio (frente del rostro) -->
+              <ellipse id="rz2" cx="130" cy="158" rx="52" ry="68"
+                fill="#6B4A30" stroke="rgba(200,122,90,.5)" stroke-width="1.5"
+                class="relieve-zona" onclick="mostrarZonaRelieve(2)" style="cursor:pointer"/>
+              <!-- Nariz / zona 1: plano más alto -->
+              <ellipse id="rz1" cx="130" cy="165" rx="16" ry="22"
+                fill="#8B6245" stroke="rgba(200,122,90,.8)" stroke-width="1.5"
+                class="relieve-zona" onclick="mostrarZonaRelieve(1)" style="cursor:pointer"/>
+              <!-- Ojos marcados -->
+              <ellipse cx="108" cy="148" rx="10" ry="7" fill="#5A3A20" stroke="rgba(200,122,90,.4)" stroke-width="1"/>
+              <ellipse cx="152" cy="148" rx="10" ry="7" fill="#5A3A20" stroke="rgba(200,122,90,.4)" stroke-width="1"/>
+              <!-- Boca -->
+              <path d="M 112 195 Q 130 208 148 195" fill="none" stroke="rgba(200,122,90,.4)" stroke-width="1.5"/>
+              <!-- Etiquetas -->
+              <text x="53" y="58" font-family="monospace" font-size="8" fill="rgba(200,122,90,.5)">PLANO 0 — fondo</text>
+              <text x="62" y="92" font-family="monospace" font-size="8" fill="rgba(200,122,90,.6)">PLANO 1 — bajo</text>
+              <text x="85" y="120" font-family="monospace" font-size="8" fill="rgba(200,122,90,.75)">PLANO 2 — medio</text>
+              <text x="114" y="155" font-family="monospace" font-size="7" fill="rgba(200,122,90,1)">P3</text>
+              <!-- Indicador activo -->
+              <circle id="zona-dot" cx="0" cy="0" r="5" fill="var(--tx2)" opacity="0"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--carbl);margin-bottom:10px;letter-spacing:.5px;">HAGA CLIC EN CADA ZONA →</div>
+            <div class="relieve-info" id="relieve-info">
+              Selecciona una zona del diagrama para ver la explicación.
+            </div>
+            <div style="margin-top:14px">
+              <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--carbl);margin-bottom:8px;letter-spacing:.3px;">CONCEPTOS CLAVE</div>
+              <div id="relieve-chips" style="display:flex;flex-wrap:wrap;gap:6px"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="act-footer">
+        <span style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--carbl);" id="relieve-progreso">0 / 4 zonas exploradas</span>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 2 — Proporciones del rostro -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 2 · Bloque 1</span>
+        <h3>Proporciones del rostro — el canon clásico</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Arrastra cada etiqueta hasta la zona correcta del diagrama. El rostro humano sigue proporciones que los artistas han estudiado durante siglos.</p>
+        <div class="prop-wrap">
+          <div class="prop-diagram">
+            <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:220px;display:block;background:#1A1612;border-radius:4px">
+              <rect width="200" height="280" fill="#1C1812" rx="4"/>
+              <!-- Contorno cara -->
+              <ellipse cx="100" cy="145" rx="70" ry="95" fill="none" stroke="rgba(200,122,90,.3)" stroke-width="1"/>
+              <!-- Líneas guía horizontales -->
+              <!-- L1: línea del cabello / frente -->
+              <line x1="30" y1="60" x2="170" y2="60" stroke="rgba(200,122,90,.5)" stroke-width="1" stroke-dasharray="4,3" id="pL1"/>
+              <!-- L2: línea de las cejas/ojos -->
+              <line x1="30" y1="120" x2="170" y2="120" stroke="rgba(100,160,220,.5)" stroke-width="1" stroke-dasharray="4,3" id="pL2"/>
+              <!-- L3: línea de la nariz -->
+              <line x1="30" y1="175" x2="170" y2="175" stroke="rgba(160,200,100,.5)" stroke-width="1" stroke-dasharray="4,3" id="pL3"/>
+              <!-- L4: línea de la boca -->
+              <line x1="30" y1="210" x2="170" y2="210" stroke="rgba(200,160,80,.5)" stroke-width="1" stroke-dasharray="4,3" id="pL4"/>
+              <!-- L5: línea del mentón -->
+              <line x1="30" y1="240" x2="170" y2="240" stroke="rgba(200,100,100,.5)" stroke-width="1" stroke-dasharray="4,3" id="pL5"/>
+              <!-- Marcadores de línea -->
+              <circle cx="28" cy="60"  r="4" fill="rgba(200,122,90,.6)" id="dot1"/>
+              <circle cx="28" cy="120" r="4" fill="rgba(100,160,220,.6)" id="dot2"/>
+              <circle cx="28" cy="175" r="4" fill="rgba(160,200,100,.6)" id="dot3"/>
+              <circle cx="28" cy="210" r="4" fill="rgba(200,160,80,.6)" id="dot4"/>
+              <circle cx="28" cy="240" r="4" fill="rgba(200,100,100,.6)" id="dot5"/>
+              <!-- Ejes guía verticales -->
+              <line x1="100" y1="30" x2="100" y2="265" stroke="rgba(255,255,255,.08)" stroke-width="1"/>
+              <!-- Ojos esquemáticos -->
+              <ellipse cx="75"  cy="120" rx="15" ry="8" fill="none" stroke="rgba(200,122,90,.3)" stroke-width="1"/>
+              <ellipse cx="125" cy="120" rx="15" ry="8" fill="none" stroke="rgba(200,122,90,.3)" stroke-width="1"/>
+              <!-- Nariz esquemática -->
+              <path d="M 88 145 L 82 175 Q 100 185 118 175 L 112 145" fill="none" stroke="rgba(200,122,90,.25)" stroke-width="1"/>
+              <!-- Boca esquemática -->
+              <path d="M 80 210 Q 100 222 120 210" fill="none" stroke="rgba(200,122,90,.25)" stroke-width="1.5"/>
+            </svg>
+          </div>
+          <div>
+            <div style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--carbl);margin-bottom:10px;letter-spacing:.5px;">ARRASTRA HASTA LA ZONA CORRECTA</div>
+            <!-- Zonas de destino -->
+            <div class="prop-drop-zone" id="dz1" data-correct="Línea de nacimiento del cabello" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="soltarEtiqueta(event,this)">
+              <span style="color:rgba(200,122,90,.5);font-size:.65rem">●</span> zona superior del rostro
+            </div>
+            <div class="prop-drop-zone" id="dz2" data-correct="Línea de los ojos" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="soltarEtiqueta(event,this)">
+              <span style="color:rgba(100,160,220,.5);font-size:.65rem">●</span> mitad del rostro
+            </div>
+            <div class="prop-drop-zone" id="dz3" data-correct="Línea de la base de la nariz" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="soltarEtiqueta(event,this)">
+              <span style="color:rgba(160,200,100,.5);font-size:.65rem">●</span> tercio inferior — parte alta
+            </div>
+            <div class="prop-drop-zone" id="dz4" data-correct="Línea de la boca" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="soltarEtiqueta(event,this)">
+              <span style="color:rgba(200,160,80,.5);font-size:.65rem">●</span> tercio inferior — centro
+            </div>
+            <div class="prop-drop-zone" id="dz5" data-correct="Línea del mentón" ondragover="event.preventDefault();this.classList.add('dragover')" ondragleave="this.classList.remove('dragover')" ondrop="soltarEtiqueta(event,this)">
+              <span style="color:rgba(200,100,100,.5);font-size:.65rem">●</span> base del rostro
+            </div>
+            <!-- Banco de etiquetas -->
+            <div style="font-family:'Space Mono',monospace;font-size:.65rem;color:var(--carbl);margin:14px 0 8px;letter-spacing:.3px;">ETIQUETAS</div>
+            <div class="prop-labels-bank" id="labels-bank">
+              <div class="prop-label" draggable="true" id="lbl1" ondragstart="arrastrarEtiqueta(event)">Línea del mentón</div>
+              <div class="prop-label" draggable="true" id="lbl2" ondragstart="arrastrarEtiqueta(event)">Línea de los ojos</div>
+              <div class="prop-label" draggable="true" id="lbl3" ondragstart="arrastrarEtiqueta(event)">Línea de la boca</div>
+              <div class="prop-label" draggable="true" id="lbl4" ondragstart="arrastrarEtiqueta(event)">Línea de nacimiento del cabello</div>
+              <div class="prop-label" draggable="true" id="lbl5" ondragstart="arrastrarEtiqueta(event)">Línea de la base de la nariz</div>
+            </div>
+          </div>
+        </div>
+        <div class="feedback" id="fb-prop"></div>
+      </div>
+      <div class="act-footer">
+        <button class="btn-check" onclick="comprobarProporciones()">Comprobar</button>
+        <button class="btn-reset" onclick="resetProporciones()">Reiniciar</button>
+        <span class="score-badge" id="sc-prop">—</span>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 3 — Comparativa escultórica -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 3 · Bloque 1</span>
+        <h3>Comparativa escultórica — tres tradiciones, tres técnicas</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Observa las tres piezas y completa la tabla de análisis. Escribe tus observaciones en cada celda — no hay respuesta única, se trata de mirar con atención.</p>
+        <div class="comp-grid">
+          <!-- Pieza 1: El Turuñuelo -->
+          <div class="comp-pieza">
+            <div class="comp-img-wrap">
+              <div class="img-placeholder" style="height:200px;min-height:unset">
+                <span class="ph-icon">🗿</span>
+                <span class="ph-name">assets/cara-01.jpg</span>
+                <span class="ph-desc">Cara de El Turuñuelo</span>
+              </div>
+            </div>
+            <div class="comp-nombre">A · El Turuñuelo (Extremadura, s. V a.C.)</div>
+            <table class="comp-tabla">
+              <tr><td>Material</td><td><textarea class="obs-input" id="obs-A1" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Técnica</td><td><textarea class="obs-input" id="obs-A2" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Rasgos formales</td><td><textarea class="obs-input" id="obs-A3" rows="2" placeholder="…"></textarea></td></tr>
+              <tr><td>¿Qué transmite?</td><td><textarea class="obs-input" id="obs-A4" rows="2" placeholder="…"></textarea></td></tr>
+            </table>
+          </div>
+          <!-- Pieza 2: Máscara fenicia -->
+          <div class="comp-pieza">
+            <div class="comp-img-wrap">
+              <div class="img-placeholder" style="height:200px;min-height:unset">
+                <span class="ph-icon">😶</span>
+                <span class="ph-name">assets/comp-fenicia.jpg</span>
+                <span class="ph-desc">Máscara fenicia — Museo de Cartago o similar</span>
+              </div>
+            </div>
+            <div class="comp-nombre">B · Máscara fenicia (Cartago, s. VII–V a.C.)</div>
+            <table class="comp-tabla">
+              <tr><td>Material</td><td><textarea class="obs-input" id="obs-B1" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Técnica</td><td><textarea class="obs-input" id="obs-B2" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Rasgos formales</td><td><textarea class="obs-input" id="obs-B3" rows="2" placeholder="…"></textarea></td></tr>
+              <tr><td>¿Qué transmite?</td><td><textarea class="obs-input" id="obs-B4" rows="2" placeholder="…"></textarea></td></tr>
+            </table>
+          </div>
+          <!-- Pieza 3: Guerrero de Osuna -->
+          <div class="comp-pieza">
+            <div class="comp-img-wrap">
+              <div class="img-placeholder" style="height:200px;min-height:unset">
+                <span class="ph-icon">⚔️</span>
+                <span class="ph-name">assets/comp-iberica.jpg</span>
+                <span class="ph-desc">Relieve del Guerrero de Osuna (ibérico)</span>
+              </div>
+            </div>
+            <div class="comp-nombre">C · Relieve de Osuna (Ibérico, s. V–IV a.C.)</div>
+            <table class="comp-tabla">
+              <tr><td>Material</td><td><textarea class="obs-input" id="obs-C1" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Técnica</td><td><textarea class="obs-input" id="obs-C2" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Rasgos formales</td><td><textarea class="obs-input" id="obs-C3" rows="2" placeholder="…"></textarea></td></tr>
+              <tr><td>¿Qué transmite?</td><td><textarea class="obs-input" id="obs-C4" rows="2" placeholder="…"></textarea></td></tr>
+            </table>
+            <div style="padding:6px 10px;font-size:.68rem;color:var(--carbl);border-top:1px solid rgba(255,255,255,.06);line-height:1.5;">
+              <a href="https://www.flickr.com/photos/santiagolopezpastor/" target="_blank" rel="noopener"
+                style="color:var(--carbl);text-decoration:none;">
+                «Guerrero de Osuna, con falcata y escudo oval (MAN)» · santiago lopez-pastor · <span style="white-space:nowrap;">CC BY-ND 2.0</span>
+              </a>
+            </div>
+          </div>
+          <!-- Pieza 4: Kouros de Náucratis -->
+          <div class="comp-pieza">
+            <div class="comp-img-wrap">
+              <div class="img-placeholder" style="height:200px;min-height:unset">
+                <span class="ph-icon">🏺</span>
+                <span class="ph-name">assets/comp-griega.jpg</span>
+                <span class="ph-desc">Kouros de Náucratis — escultura griega arcaica</span>
+              </div>
+            </div>
+            <div class="comp-nombre">D · Kouros de Náucratis (Grecia arcaica, s. VI a.C.)</div>
+            <table class="comp-tabla">
+              <tr><td>Material</td><td><textarea class="obs-input" id="obs-D1" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Técnica</td><td><textarea class="obs-input" id="obs-D2" rows="1" placeholder="…"></textarea></td></tr>
+              <tr><td>Rasgos formales</td><td><textarea class="obs-input" id="obs-D3" rows="2" placeholder="…"></textarea></td></tr>
+              <tr><td>¿Qué transmite?</td><td><textarea class="obs-input" id="obs-D4" rows="2" placeholder="…"></textarea></td></tr>
+            </table>
+            <div style="padding:6px 10px;font-size:.68rem;color:var(--carbl);border-top:1px solid rgba(255,255,255,.06);line-height:1.5;">
+              <a href="https://creativecommons.org/licenses/by-sa/4.0" target="_blank" rel="noopener"
+                style="color:var(--carbl);text-decoration:none;">
+                «Kouros of Naucratis» · Jerónimo Roure Pérez · <span style="white-space:nowrap;">CC BY-SA 4.0</span>, via Wikimedia Commons
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="feedback" id="fb-comp"></div>
+      </div>
+      <div class="act-footer">
+        <button class="btn-check" onclick="comprobarComparativa()">Guardar observaciones</button>
+        <span class="score-badge" id="sc-comp">—</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--carbl)">La docente revisará tus respuestas</span>
+      </div>
+    </div>
+
+    <!-- GUÍA DE BOCETO -->
+    <div class="papel-card az">
+      <div class="card-title">✏️ Guía para el boceto de reconstrucción</div>
+      <div class="card-body">
+        <p>Ahora vas a dibujar tu propia <strong>reconstrucción hipotética</strong> de una de las caras de El Turuñuelo. No se trata de copiar: se trata de proponer cómo podría haber sido a partir de lo que sabes. Usa estas guías:</p>
+      </div>
+      <div class="boceto-pasos" style="margin-top:18px">
+        <div class="boceto-paso">
+          <div class="boceto-paso-num">PASO 01</div>
+          <svg class="boceto-paso-svg" viewBox="0 0 80 80" width="64" height="64">
+            <rect width="80" height="80" fill="#E3EFF8" rx="4"/>
+            <ellipse cx="40" cy="42" rx="24" ry="30" fill="none" stroke="var(--az)" stroke-width="2"/>
+            <line x1="16" y1="42" x2="64" y2="42" stroke="var(--az)" stroke-width="1" stroke-dasharray="3,2" opacity=".5"/>
+            <line x1="40" y1="12" x2="40" y2="72" stroke="var(--az)" stroke-width="1" stroke-dasharray="3,2" opacity=".5"/>
+          </svg>
+          <div class="boceto-paso-txt"><strong>Encaje y ejes</strong>Dibuja un óvalo y traza el eje vertical y la línea de los ojos</div>
+        </div>
+        <div class="boceto-paso">
+          <div class="boceto-paso-num">PASO 02</div>
+          <svg class="boceto-paso-svg" viewBox="0 0 80 80" width="64" height="64">
+            <rect width="80" height="80" fill="#E3EFF8" rx="4"/>
+            <ellipse cx="40" cy="42" rx="24" ry="30" fill="none" stroke="var(--az)" stroke-width="1.5" opacity=".4"/>
+            <line x1="16" y1="36" x2="64" y2="36" stroke="var(--az)" stroke-width="1" stroke-dasharray="2,2" opacity=".4"/>
+            <line x1="16" y1="50" x2="64" y2="50" stroke="var(--az)" stroke-width="1" stroke-dasharray="2,2" opacity=".4"/>
+            <line x1="16" y1="62" x2="64" y2="62" stroke="var(--az)" stroke-width="1" stroke-dasharray="2,2" opacity=".4"/>
+            <text x="8" y="39" font-size="7" fill="var(--az)" opacity=".7">ojos</text>
+            <text x="8" y="53" font-size="7" fill="var(--az)" opacity=".7">nariz</text>
+            <text x="8" y="65" font-size="7" fill="var(--az)" opacity=".7">boca</text>
+          </svg>
+          <div class="boceto-paso-txt"><strong>Líneas guía</strong>Marca las líneas de ojos, base de nariz y boca con las proporciones aprendidas</div>
+        </div>
+        <div class="boceto-paso">
+          <div class="boceto-paso-num">PASO 03</div>
+          <svg class="boceto-paso-svg" viewBox="0 0 80 80" width="64" height="64">
+            <rect width="80" height="80" fill="#E3EFF8" rx="4"/>
+            <ellipse cx="40" cy="42" rx="24" ry="30" fill="none" stroke="var(--az)" stroke-width="1.5"/>
+            <ellipse cx="32" cy="36" rx="7" ry="5" fill="none" stroke="var(--az)" stroke-width="1.5"/>
+            <ellipse cx="48" cy="36" rx="7" ry="5" fill="none" stroke="var(--az)" stroke-width="1.5"/>
+            <path d="M 34 52 L 30 62 Q 40 67 50 62 L 46 52" fill="none" stroke="var(--az)" stroke-width="1.5"/>
+            <path d="M 34 65 Q 40 70 46 65" fill="none" stroke="var(--az)" stroke-width="1.5"/>
+          </svg>
+          <div class="boceto-paso-txt"><strong>Rasgos principales</strong>Añade ojos almendrados, nariz y boca. Recuerda los rasgos marcados de las caras</div>
+        </div>
+        <div class="boceto-paso">
+          <div class="boceto-paso-num">PASO 04</div>
+          <svg class="boceto-paso-svg" viewBox="0 0 80 80" width="64" height="64">
+            <rect width="80" height="80" fill="#E3EFF8" rx="4"/>
+            <ellipse cx="40" cy="42" rx="24" ry="30" fill="none" stroke="var(--az)" stroke-width="1.5"/>
+            <!-- sombra lateral -->
+            <ellipse cx="58" cy="42" rx="6" ry="28" fill="rgba(26,74,107,.15)"/>
+            <ellipse cx="22" cy="42" rx="6" ry="28" fill="rgba(26,74,107,.08)"/>
+            <!-- nariz con volumen -->
+            <path d="M 34 52 L 30 62 Q 40 67 50 62 L 46 52" fill="rgba(26,74,107,.08)" stroke="var(--az)" stroke-width="1.5"/>
+          </svg>
+          <div class="boceto-paso-txt"><strong>Volumen y luz</strong>Sombrea los laterales y la nariz para dar sensación de relieve y profundidad</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 4 (B1) — V/F vocabulario escultura -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 4 · Bloque 1</span>
+        <h3>Verdadero o Falso — vocabulario de escultura</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Decide si cada afirmación es verdadera o falsa. Cuando compruebes, verás la explicación de cada una.</p>
+        <div class="vf-list" id="vfb1-list">
+          <div class="vf-item" id="vfb1-item-0">
+            <div class="vf-text">El relieve es una técnica escultórica en la que las figuras sobresalen de un fondo plano.<div class="vf-explain"></div></div>
+            <div class="vf-btns">
+              <button class="vf-btn" id="vfb1-btn-0-V" onclick="selVF(0,'V')">V</button>
+              <button class="vf-btn" id="vfb1-btn-0-F" onclick="selVF(0,'F')">F</button>
+            </div>
+          </div>
+          <div class="vf-item" id="vfb1-item-1">
+            <div class="vf-text">El altorrelieve es aquel en que la figura se separa menos del 50% de su grosor total respecto al fondo.<div class="vf-explain"></div></div>
+            <div class="vf-btns">
+              <button class="vf-btn" id="vfb1-btn-1-V" onclick="selVF(1,'V')">V</button>
+              <button class="vf-btn" id="vfb1-btn-1-F" onclick="selVF(1,'F')">F</button>
+            </div>
+          </div>
+          <div class="vf-item" id="vfb1-item-2">
+            <div class="vf-text">El adobe es un material de construcción fabricado con barro, paja y agua, secado al sol.<div class="vf-explain"></div></div>
+            <div class="vf-btns">
+              <button class="vf-btn" id="vfb1-btn-2-V" onclick="selVF(2,'V')">V</button>
+              <button class="vf-btn" id="vfb1-btn-2-F" onclick="selVF(2,'F')">F</button>
+            </div>
+          </div>
+          <div class="vf-item" id="vfb1-item-3">
+            <div class="vf-text">Las esculturas de bulto redondo se contemplan solo desde un punto de vista frontal.<div class="vf-explain"></div></div>
+            <div class="vf-btns">
+              <button class="vf-btn" id="vfb1-btn-3-V" onclick="selVF(3,'V')">V</button>
+              <button class="vf-btn" id="vfb1-btn-3-F" onclick="selVF(3,'F')">F</button>
+            </div>
+          </div>
+          <div class="vf-item" id="vfb1-item-4">
+            <div class="vf-text">La textura es un elemento visual y táctil que describe la superficie de una obra escultórica.<div class="vf-explain"></div></div>
+            <div class="vf-btns">
+              <button class="vf-btn" id="vfb1-btn-4-V" onclick="selVF(4,'V')">V</button>
+              <button class="vf-btn" id="vfb1-btn-4-F" onclick="selVF(4,'F')">F</button>
+            </div>
+          </div>
+        </div>
+        <div class="feedback" id="fb-vf"></div>
+      </div>
+      <div class="act-footer">
+        <button class="btn-check" onclick="comprobarVF()">Comprobar</button>
+        <button class="btn-reset" onclick="resetVF()">Reiniciar</button>
+        <span class="score-badge" id="sc-vf">—</span>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 5 (B1) — Clasificar técnicas escultóricas -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 5 · Bloque 1</span>
+        <h3>Clasifica las técnicas — bulto redondo, relieve o grabado</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Arrastra cada elemento al tipo de técnica escultórica al que pertenece.</p>
+        <!-- Banco de chips -->
+        <div class="clasif-banco" id="clasif-banco">
+          <div class="clasif-chip" id="clasif-chip-cl0" draggable="true" ondragstart="dragClasif(event,'cl0')">Busto en mármol</div>
+          <div class="clasif-chip" id="clasif-chip-cl1" draggable="true" ondragstart="dragClasif(event,'cl1')">Relieve en adobe de El Turuñuelo</div>
+          <div class="clasif-chip" id="clasif-chip-cl2" draggable="true" ondragstart="dragClasif(event,'cl2')">Figura de cerámica modelada a mano</div>
+          <div class="clasif-chip" id="clasif-chip-cl3" draggable="true" ondragstart="dragClasif(event,'cl3')">Máscara fenicia de terracota</div>
+          <div class="clasif-chip" id="clasif-chip-cl4" draggable="true" ondragstart="dragClasif(event,'cl4')">Bajorrelieve en piedra caliza</div>
+          <div class="clasif-chip" id="clasif-chip-cl5" draggable="true" ondragstart="dragClasif(event,'cl5')">Grabado inciso sobre roca</div>
+          <div class="clasif-chip" id="clasif-chip-cl6" draggable="true" ondragstart="dragClasif(event,'cl6')">Petroglifos rupestres</div>
+          <div class="clasif-chip" id="clasif-chip-cl7" draggable="true" ondragstart="dragClasif(event,'cl7')">Friso con figuras en un templo</div>
+        </div>
+        <!-- Zonas de destino -->
+        <div class="clasif-zonas">
+          <div class="clasif-zona" data-cat="bulto" id="clasif-zona-bulto"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="dropClasif(event,'bulto');this.classList.remove('dragover')">
+            <div class="clasif-zona-header">🗿 Bulto redondo</div>
+            <div class="clasif-zona-chips" id="clasif-zona-bulto-chips"></div>
+          </div>
+          <div class="clasif-zona" data-cat="relieve" id="clasif-zona-relieve"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="dropClasif(event,'relieve');this.classList.remove('dragover')">
+            <div class="clasif-zona-header">🏛️ Relieve</div>
+            <div class="clasif-zona-chips" id="clasif-zona-relieve-chips"></div>
+          </div>
+          <div class="clasif-zona" data-cat="grabado" id="clasif-zona-grabado"
+            ondragover="event.preventDefault();this.classList.add('dragover')"
+            ondragleave="this.classList.remove('dragover')"
+            ondrop="dropClasif(event,'grabado');this.classList.remove('dragover')">
+            <div class="clasif-zona-header">🪨 Grabado</div>
+            <div class="clasif-zona-chips" id="clasif-zona-grabado-chips"></div>
+          </div>
+        </div>
+        <div class="feedback" id="fb-clasif"></div>
+      </div>
+      <div class="act-footer">
+        <button class="btn-check" onclick="comprobarClasif()">Comprobar</button>
+        <button class="btn-reset" onclick="resetClasif()">Reiniciar</button>
+        <span class="score-badge" id="sc-clasif">—</span>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 6 (B1) — Matching material–época -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 6 · Bloque 1</span>
+        <h3>Empareja — material y obra</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Haz clic en un material de la columna izquierda y luego en la obra correspondiente de la derecha. Los pares correctos quedarán fijos en verde.</p>
+        <div class="match-grid">
+          <div class="match-col">
+            <div class="match-col-title">Material</div>
+            <div class="match-item izq" id="match-izq-0" onclick="selMatch('izq',0)">Adobe (barro secado al sol)</div>
+            <div class="match-item izq" id="match-izq-1" onclick="selMatch('izq',1)">Piedra caliza</div>
+            <div class="match-item izq" id="match-izq-2" onclick="selMatch('izq',2)">Terracota (arcilla cocida)</div>
+            <div class="match-item izq" id="match-izq-3" onclick="selMatch('izq',3)">Mármol blanco</div>
+            <div class="match-item izq" id="match-izq-4" onclick="selMatch('izq',4)">Bronce fundido</div>
+          </div>
+          <div class="match-col">
+            <div class="match-col-title">Obra y época</div>
+            <div class="match-item der" id="match-der-2" onclick="selMatch('der',2)">Máscaras fenicias — s. VII–V a.C.</div>
+            <div class="match-item der" id="match-der-4" onclick="selMatch('der',4)">Dama de Elche (base) — s. V a.C.</div>
+            <div class="match-item der" id="match-der-0" onclick="selMatch('der',0)">El Turuñuelo — s. V a.C.</div>
+            <div class="match-item der" id="match-der-3" onclick="selMatch('der',3)">Escultura griega clásica — s. V a.C.</div>
+            <div class="match-item der" id="match-der-1" onclick="selMatch('der',1)">Relieves de Osuna — s. V–IV a.C.</div>
+          </div>
+        </div>
+        <div class="feedback" id="fb-match"></div>
+      </div>
+      <div class="act-footer">
+        <button class="btn-reset" onclick="resetMatch()">Reiniciar</button>
+        <span class="score-badge" id="sc-match">—</span>
+        <span style="font-family:'Space Mono',monospace;font-size:.68rem;color:var(--carbl)">Los pares correctos se fijan automáticamente</span>
+      </div>
+    </div>
+
+    <!-- WE CAN DO IT S1 -->
+    <div class="wcdi-bloque">
+      <div class="wcdi-badge">💜 We Can Do It</div>
+      <h3>Esther Rodríguez González — codirectora del equipo</h3>
+      <p><strong>Esther Rodríguez González</strong> (CSIC) codirige el proyecto de El Turuñuelo y es la responsable científica del trabajo de campo. Cuando en 2023 su equipo descubrió los relieves de la fachada, fue ella quien coordinó la respuesta inmediata: documentar fotográficamente cada detalle antes de que el aire y la humedad pudiesen deteriorarlos.</p>
+      <p>El equipo que excava cada campaña tiene <strong>mayoría de mujeres</strong> en todos los niveles: arqueólogas, restauradoras, topógrafas y especialistas en fauna y paleobotánica. Esto no siempre fue así en la arqueología española.</p>
+      <div class="wcdi-cards" style="margin-top:16px">
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="nombre">Esther Rodríguez González</div>
+              <div class="rol-hint">CODIRECTORA · CSIC</div>
+            </div>
+            <div class="flip-back">
+              <p>Arqueóloga del CSIC, codirectora científica de El Turuñuelo. Especialista en protohistoria del suroeste peninsular. Descubrió el yacimiento en 2014 mientras realizaba su tesis doctoral.</p>
+              <a href="https://www.researchgate.net/profile/Esther-Rodriguez-Gonzalez" target="_blank" rel="noopener"
+                style="display:inline-block;margin-top:8px;font-family:'Space Mono',monospace;font-size:.6rem;color:#4A7A4A;text-decoration:none;border-bottom:1px solid #4A7A4A;">
+                Ver perfil de investigación →
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="nombre">Alicia Perea Caveda</div>
+              <div class="rol-hint">INVESTIGADORA · CSIC</div>
+            </div>
+            <div class="flip-back">
+              <p>Arqueometalúrgica del CSIC, pionera en el estudio científico del oro antiguo en la Península Ibérica. Su obra <em>Orfebrería prerromana</em> (1991) es una referencia fundamental en arqueología protohistórica.</p>
+              <a href="https://es.wikipedia.org/wiki/Alicia_Perea_Caveda" target="_blank" rel="noopener"
+                style="display:inline-block;margin-top:8px;font-family:'Space Mono',monospace;font-size:.6rem;color:#4A7A4A;text-decoration:none;border-bottom:1px solid #4A7A4A;">
+                Ver en Wikipedia →
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="flip-card" onclick="this.classList.toggle('flipped')">
+          <div class="flip-inner">
+            <div class="flip-front">
+              <div class="nombre">Teresa Chapa Brunet</div>
+              <div class="rol-hint">CATEDRÁTICA · UCM</div>
+            </div>
+            <div class="flip-back">
+              <p>Catedrática de Prehistoria de la UCM y máxima experta en escultura ibérica. Investigadora principal del proyecto «Escultura Ibérica: estudio iconográfico, tecnológico e historiográfico».</p>
+              <a href="https://es.wikipedia.org/wiki/Teresa_Chapa_Brunet" target="_blank" rel="noopener"
+                style="display:inline-block;margin-top:8px;font-family:'Space Mono',monospace;font-size:.6rem;color:#4A7A4A;text-decoration:none;border-bottom:1px solid #4A7A4A;">
+                Ver en Wikipedia →
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="flip-hint">Haz clic en cada tarjeta para descubrir más</div>
+    </div>
+
+  </div><!-- /bloque 1 -->
+
+  <!-- ══════════════════════════════════════════════
+       BLOQUE 2 — De la foto al modelo 3D
+  ══════════════════════════════════════════════ -->
+  <div class="sesion" id="s2">
+
+    <div class="papel-card dark">
+      <div class="card-title">🖨️ Del barro al píxel: cómo preservamos lo que el tiempo destruye</div>
+      <div class="card-body">
+        <p>Los relieves de adobe de El Turuñuelo son extraordinariamente frágiles. En cuanto se exponen al aire y la humedad, el deterioro comienza. Por eso el equipo de arqueólogos los documenta digitalmente de inmediato. Hoy vamos a recorrer ese proceso y a repetirlo nosotros con <strong>Meshy</strong>.</p>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 4 — Flujo fotogrametría interactivo -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 7 · Bloque 2</span>
+        <h3>El flujo completo: del hallazgo al modelo 3D imprimible</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Haz clic en cada paso del proceso para ver qué ocurre y por qué es importante.</p>
+        <div class="flujo-wrap" id="flujo-wrap">
+          <div class="flujo-paso" onclick="mostrarFlujo(0)" id="fp0">
+            <div class="flujo-icono">⛏️</div>
+            <div class="flujo-paso-txt">Excavación<br>y hallazgo</div>
+          </div>
+          <div class="flujo-flecha">→</div>
+          <div class="flujo-paso" onclick="mostrarFlujo(1)" id="fp1">
+            <div class="flujo-icono">📸</div>
+            <div class="flujo-paso-txt">Fotografías<br>desde todos<br>los ángulos</div>
+          </div>
+          <div class="flujo-flecha">→</div>
+          <div class="flujo-paso" onclick="mostrarFlujo(2)" id="fp2">
+            <div class="flujo-icono">☁️</div>
+            <div class="flujo-paso-txt">Nube de<br>puntos 3D</div>
+          </div>
+          <div class="flujo-flecha">→</div>
+          <div class="flujo-paso" onclick="mostrarFlujo(3)" id="fp3">
+            <div class="flujo-icono">🧊</div>
+            <div class="flujo-paso-txt">Modelo<br>texturizado<br>(Meshy)</div>
+          </div>
+          <div class="flujo-flecha">→</div>
+          <div class="flujo-paso" onclick="mostrarFlujo(4)" id="fp4">
+            <div class="flujo-icono">📄</div>
+            <div class="flujo-paso-txt">Archivo STL<br>para impresora</div>
+          </div>
+          <div class="flujo-flecha">→</div>
+          <div class="flujo-paso" onclick="mostrarFlujo(5)" id="fp5">
+            <div class="flujo-icono">🖨️</div>
+            <div class="flujo-paso-txt">Réplica<br>física</div>
+          </div>
+        </div>
+        <div class="flujo-detalle" id="flujo-detalle">
+          Haz clic en un paso del proceso para ver su explicación.
+        </div>
+        <!-- Imagen del modelo Meshy -->
+        <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
+          <div class="img-placeholder">
+            <span class="ph-icon">🧊</span>
+            <span class="ph-name">assets/meshy-modelo.jpg</span>
+            <span class="ph-desc">Modelo 3D texturizado de la cara generado con Meshy</span>
+          </div>
+          <div class="img-placeholder">
+            <span class="ph-icon">☁️</span>
+            <span class="ph-name">assets/meshy-proceso.jpg</span>
+            <span class="ph-desc">Vista del proceso de generación — nube de puntos o interfaz Meshy</span>
+          </div>
+        </div>
+        <div class="feedback" id="fb-flujo"></div>
+      </div>
+      <div class="act-footer">
+        <span style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--carbl)" id="flujo-progreso">0 / 6 pasos explorados</span>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 5 — Checklist Meshy -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 8 · Bloque 2</span>
+        <h3>Tu turno en Meshy — guión de trabajo en grupo</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Sigue estos pasos con tu grupo. Marca cada paso cuando lo hayas completado. La cuenta de Gmail genérica la facilita la docente.</p>
+        <div class="check-progress" id="check-prog-txt">0 / 7 pasos completados</div>
+        <div class="check-prog-bar"><div class="check-prog-fill" id="check-prog-fill"></div></div>
+        <div class="checklist" id="checklist-meshy">
+          <div class="check-item" onclick="toggleCheck(this,0)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Accede a Meshy con la cuenta facilitada</div>
+              <div class="check-desc">Ve a <strong>meshy.ai</strong> e inicia sesión con la cuenta de Gmail del grupo. No uses tu cuenta personal.</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,1)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Observa primero el trabajo de la profesora</div>
+              <div class="check-desc">Antes de subir nada, observa el modelo que <strong>tu profesora</strong> ha generado con sus fotos del yacimiento. Identifica los pasos que siguió.</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,2)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Selecciona la función "Image to 3D"</div>
+              <div class="check-desc">En el menú principal de Meshy, elige la opción de generar un modelo 3D a partir de imágenes.</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,3)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Sube las fotografías facilitadas por la docente</div>
+              <div class="check-desc">Usa las fotos de las caras de El Turuñuelo que <strong>tu profesora</strong> ha preparado para el grupo. Sube al menos 3 ángulos diferentes.</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,4)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Inicia la generación y espera el resultado</div>
+              <div class="check-desc">Pulsa "Generate" y espera. Meshy puede tardar varios minutos. Observa el proceso y anota qué ves.</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,5)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Compara el modelo con las fotos originales</div>
+              <div class="check-desc">¿El modelo captura bien los relieves? ¿Qué detalles se han perdido? ¿Qué información añade el modelo 3D que las fotos no dan?</div>
+            </div>
+          </div>
+          <div class="check-item" onclick="toggleCheck(this,6)">
+            <div class="check-box">✓</div>
+            <div class="check-content">
+              <div class="check-titulo">Descarga el archivo y anota el nombre del archivo</div>
+              <div class="check-desc">Descarga el modelo (formato OBJ o STL). Guarda el nombre del archivo para entregárselo a la docente junto con el código de entrega.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="act-footer">
+        <span style="font-family:'Space Mono',monospace;font-size:.7rem;color:var(--carbl)">Marca los pasos que vayas completando</span>
+        <span class="score-badge" id="sc-checklist">0 / 7</span>
+      </div>
+    </div>
+
+    <!-- ACTIVIDAD 6 — Reflexión abierta -->
+    <div class="actividad">
+      <div class="act-header">
+        <span class="act-num">Act. 9 · Bloque 2</span>
+        <h3>Reflexión final — tecnología, arte y patrimonio</h3>
+      </div>
+      <div class="act-body">
+        <p class="instruccion">Responde con tus propias palabras. No hay respuesta correcta o incorrecta: lo que importa es que pienses y argumentes.</p>
+        <div class="reflexion-pregunta">
+          <label><span class="num-ref">01 —</span> ¿Qué aporta el modelo 3D que una fotografía no puede dar? Pon al menos un ejemplo concreto de algo que viste u observaste hoy.</label>
+          <textarea class="reflexion-textarea" id="ref1" placeholder="Escribe tu respuesta aquí…" maxlength="500" oninput="actualizarChars(this,'chars1')"></textarea>
+          <div class="chars-left" id="chars1">500 caracteres restantes</div>
+        </div>
+        <div class="reflexion-pregunta">
+          <label><span class="num-ref">02 —</span> Si los relieves de adobe desaparecieran mañana por un daño accidental, ¿sería suficiente tener el modelo 3D? ¿Qué se perdería y qué se conservaría?</label>
+          <textarea class="reflexion-textarea" id="ref2" placeholder="Escribe tu respuesta aquí…" maxlength="500" oninput="actualizarChars(this,'chars2')"></textarea>
+          <div class="chars-left" id="chars2">500 caracteres restantes</div>
+        </div>
+        <div class="reflexion-pregunta">
+          <label><span class="num-ref">03 —</span> ¿Crees que la tecnología cambia cómo nos relacionamos con el arte y el patrimonio? ¿Para bien, para mal, o depende?</label>
+          <textarea class="reflexion-textarea" id="ref3" placeholder="Escribe tu respuesta aquí…" maxlength="500" oninput="actualizarChars(this,'chars3')"></textarea>
+          <div class="chars-left" id="chars3">500 caracteres restantes</div>
+        </div>
+        <div class="feedback" id="fb-ref"></div>
+      </div>
+      <div class="act-footer">
+        <button class="btn-check vd" onclick="guardarReflexiones()">Guardar reflexiones</button>
+        <span class="score-badge" id="sc-ref">—</span>
+      </div>
+    </div>
+
+    <!-- WE CAN DO IT S2 -->
+    <div class="wcdi-bloque">
+      <div class="wcdi-badge">💜 We Can Do It</div>
+      <h3>La tecnología también es cosa de mujeres</h3>
+      <p>La fotogrametría y el modelado 3D se han convertido en herramientas fundamentales para preservar el patrimonio cultural. Muchas de las personas que desarrollan y aplican estas técnicas en arqueología son mujeres.</p>
+      <p><strong>Alicia Perea Caveda</strong> (CSIC) fue pionera en el análisis arqueométrico del oro antiguo, aplicando microscopía electrónica al estudio de la orfebrería prerromana española. <strong>Ana Margarida Arruda</strong> (Universidad de Lisboa) es la mayor experta en la presencia fenicia en el Atlántico occidental: sus excavaciones en Castro Marim y Santarém han transformado nuestra comprensión de cómo los fenicios llegaron a Portugal. Dos trayectorias distintas que demuestran que la arqueología y la tecnología al servicio de la historia tienen nombre de mujer.
+      <br><br>
+      <a href="https://es.wikipedia.org/wiki/Alicia_Perea_Caveda" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:.7rem;color:#2E5E2E;text-decoration:none;border-bottom:1px solid #2E5E2E;margin-right:16px;">Alicia Perea en Wikipedia →</a>
+      <a href="https://es.wikipedia.org/wiki/Ana_Margarida_Arruda" target="_blank" rel="noopener" style="font-family:'Space Mono',monospace;font-size:.7rem;color:#2E5E2E;text-decoration:none;border-bottom:1px solid #2E5E2E;">Ana Margarida Arruda en Wikipedia →</a>
+      </p>
+    </div>
+
+  </div><!-- /sesion 2 -->
+
+  <!-- ══ MODAL ALUMNO ══ -->
+  <div class="inf-overlay" id="alum-overlay">
+    <div class="inf-modal">
+      <div class="inf-mh">
+        <h2>▣ Código de entrega para la docente</h2>
+        <button class="inf-mclose" onclick="cerrarModalAlumno()">✕</button>
+      </div>
+      <div class="inf-mbody">
+        <div class="inf-aviso" id="alum-aviso">⚠️ Hay actividades sin completar. Puedes generar el código igualmente, pero la docente verá qué actividades están pendientes.</div>
+        <div class="inf-resumen" id="alum-resumen"></div>
+        <div class="ini-wrap">
+          <label for="alum-ini">INICIALES:</label>
+          <input class="ini-input" type="text" id="alum-ini" placeholder="A.M.G." maxlength="10">
+        </div>
+        <table class="inf-tabla">
+          <thead><tr><th>Bloque</th><th>Actividad</th><th>Estado</th><th>Nota</th></tr></thead>
+          <tbody id="alum-tbody"></tbody>
+        </table>
+        <div class="codigo-box" id="alum-codigo"></div>
+      </div>
+      <div class="inf-mfooter">
+        <button class="btn-inf prim" onclick="generarCodigo()">🔑 Generar código</button>
+        <button class="btn-inf cop" id="btn-copiar" onclick="copiarCodigo()">📋 Copiar</button>
+        <span class="copy-ok" id="copy-ok">✓ Copiado</span>
+        <button class="btn-inf sec" onclick="cerrarModalAlumno()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ MODAL DOCENTE (Ctrl+Shift+D) ══ -->
+  <div class="inf-overlay" id="doc-overlay">
+    <div class="inf-modal">
+      <div class="inf-mh doc">
+        <h2>🔐 Panel docente — Lectura de informe</h2>
+        <button class="inf-mclose" onclick="cerrarModalDocente()">✕</button>
+      </div>
+      <div class="inf-mbody">
+        <p style="font-size:.84rem;color:var(--carb);margin-bottom:12px;">Pega el código del alumno/a y pulsa <strong>Decodificar</strong>.</p>
+        <textarea class="doc-paste" id="doc-paste" placeholder="Pega aquí el código Base64…"></textarea>
+        <button class="btn-inf prim doc" onclick="decodificarInforme()">🔍 Decodificar</button>
+        <div class="doc-resultado" id="doc-resultado">
+          <div class="doc-alumno" id="doc-alumno-card"></div>
+          <table class="inf-tabla">
+            <thead id="doc-thead"><tr><th>Bloque</th><th>Actividad</th><th>Estado</th><th>Nota / Respuesta</th></tr></thead>
+            <tbody id="doc-tbody"></tbody>
+          </table>
+        </div>
+        <div class="feedback" id="doc-error"></div>
+      </div>
+      <div class="inf-mfooter">
+        <button class="btn-inf sec" onclick="cerrarModalDocente()">Cerrar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LIGHTBOX -->
+  <div id="lightbox" onclick="cerrarLightbox()">
+    <button id="lightbox-close" onclick="cerrarLightbox()">✕</button>
+    <img id="lightbox-img" src="" alt="">
+    <div id="lightbox-caption"></div>
+  </div>
+
+</div><!-- /page-wrap -->
+<script>
+// ══════════════════════════════════════════════════════════
+// ESTADO GLOBAL
+// ══════════════════════════════════════════════════════════
+var STATE = {
+  s1: {
+    relieve:   null,  // { zonas: [0,1,2,3] exploradas }
+    prop:      null,  // { correct, total }
+    comp:      null,  // { guardado: true, obs: {...} }
+    vf:        null,  // { correct, total } — V/F vocabulario escultura
+    clasif:    null,  // { correct, total } — clasificar técnicas
+    match:     null,  // { correct, total } — emparejar material-época
+  },
+  s2: {
+    flujo:     null,
+    checklist: null,
+    ref:       null,
+  }
+};
+
+// ══════════════════════════════════════════════════════════
+// NAVEGACIÓN SESIONES
+// ══════════════════════════════════════════════════════════
+function mostrarSesion(id, btn) {
+  document.querySelectorAll('.sesion').forEach(function(s){ s.classList.remove('active'); });
+  document.querySelectorAll('.sesion-tab').forEach(function(t){ t.classList.remove('active'); });
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  window.scrollTo({top:0, behavior:'smooth'});
+}
+
+// ══════════════════════════════════════════════════════════
+// PROGRESS BAR GLOBAL
+// ══════════════════════════════════════════════════════════
+function updateProgress() {
+  var done = 0, total = 8;
+  if (STATE.s1.relieve && STATE.s1.relieve.zonas && STATE.s1.relieve.zonas.length >= 4) done++;
+  if (STATE.s1.prop)    done++;
+  if (STATE.s1.comp)    done++;
+  if (STATE.s1.vf)      done++;
+  if (STATE.s1.clasif)  done++;
+  if (STATE.s1.match)   done++;
+  if (STATE.s2.checklist && STATE.s2.checklist.completados > 0) done++;
+  if (STATE.s2.ref && STATE.s2.ref.guardado) done++;
+  var pct = Math.round(done / total * 100);
+  var bar = document.getElementById('global-progress');
+  if (bar) bar.style.width = pct + '%';
+}
+
+// ══════════════════════════════════════════════════════════
+// LIGHTBOX
+// ══════════════════════════════════════════════════════════
+function abrirLightbox(src, caption) {
+  var lb = document.getElementById('lightbox');
+  var img = document.getElementById('lightbox-img');
+  var cap = document.getElementById('lightbox-caption');
+  cap.textContent = caption || '';
+  // Intentar con la extensión indicada; si falla, probar la alternativa
+  img.src = src;
+  img.onerror = function() {
+    var alt = src.endsWith('.jpg') ? src.replace(/\.jpg$/, '.jpeg')
+                                   : src.replace(/\.jpeg$/, '.jpg');
+    img.onerror = function() { lb.classList.remove('open'); };
+    img.src = alt;
+  };
+  lb.classList.add('open');
+}
+function cerrarLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 1 — ZONAS DEL RELIEVE
+// ══════════════════════════════════════════════════════════
+var zonaRelieveData = [
+  { zona: 1, nombre: 'Plano más alto (plano 3)',
+    texto: '<strong>Plano más alto — nariz y partes prominentes.</strong> Es la zona que más sobresale del fondo. En escultura se llama "altorrelieve" cuando la figura se separa más de la mitad de su volumen del plano de fondo. Aquí es donde la luz proyecta la sombra más intensa, creando sensación de volumen y profundidad.',
+    chips: ['altorrelieve', 'volumen', 'sombra'] },
+  { zona: 2, nombre: 'Plano medio (frente del rostro)',
+    texto: '<strong>Plano medio — frente y mejillas.</strong> La zona intermedia entre el relieve más alto y el fondo. Es el área más extensa de la cara y donde se trabaja el modelado de la forma. La transición suave entre este plano y el anterior crea la sensación de redondez del rostro.',
+    chips: ['plano medio', 'modelado', 'transición'] },
+  { zona: 3, nombre: 'Plano bajo (contorno)',
+    texto: '<strong>Plano bajo — contorno y sienes.</strong> La zona más próxima al fondo, donde el relieve apenas se separa del plano base. Define el límite de la figura y crea el contraste que hace que el rostro "aparezca" sobre la pared. En bajorrelieve toda la figura se queda en este rango.',
+    chips: ['bajorrelieve', 'contorno', 'límite'] },
+  { zona: 4, nombre: 'Fondo (plano 0)',
+    texto: '<strong>Fondo — el plano base.</strong> La superficie original del adobe, sin trabajar. Todo el relieve parte de aquí. Es el "cero" a partir del cual se miden todas las alturas. La textura y el color del fondo contrastan con la figura para hacerla visible.',
+    chips: ['plano base', 'adobe', 'contraste'] },
+];
+var zonasExploradas = [];
+
+function mostrarZonaRelieve(n) {
+  var data = zonaRelieveData.find(function(z){ return z.zona === n; });
+  if (!data) return;
+  var infoEl = document.getElementById('relieve-info');
+  infoEl.innerHTML = data.texto;
+  infoEl.classList.add('activo');
+  // Actualizar chips
+  var chips = document.getElementById('relieve-chips');
+  chips.innerHTML = data.chips.map(function(c){
+    return '<span style="background:rgba(200,122,90,.1);border:1px solid rgba(200,122,90,.25);color:var(--tx2);font-family:\'Space Mono\',monospace;font-size:.65rem;padding:3px 9px;border-radius:2px;letter-spacing:.3px;">' + c + '</span>';
+  }).join('');
+  // Registrar exploración
+  if (zonasExploradas.indexOf(n) === -1) zonasExploradas.push(n);
+  document.getElementById('relieve-progreso').textContent = zonasExploradas.length + ' / 4 zonas exploradas';
+  STATE.s1.relieve = { zonas: zonasExploradas.slice() };
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 2 — PROPORCIONES (drag & drop)
+// ══════════════════════════════════════════════════════════
+var propDragId = null;
+
+function arrastrarEtiqueta(e) {
+  propDragId = e.target.id;
+  e.dataTransfer.effectAllowed = 'move';
+}
+
+function soltarEtiqueta(e, zona) {
+  e.preventDefault();
+  zona.classList.remove('dragover');
+  if (!propDragId) return;
+  var lbl = document.getElementById(propDragId);
+  if (!lbl) return;
+  // Si ya hay una etiqueta, la devolvemos al banco
+  if (zona.dataset.placed) {
+    var prev = document.getElementById(zona.dataset.placed);
+    if (prev) { prev.classList.remove('placed'); prev.setAttribute('draggable','true'); }
+  }
+  // Colocar nueva etiqueta
+  zona.dataset.placed = propDragId;
+  zona.innerHTML = '<span style="color:var(--tx2);font-size:.65rem">●</span> ' + lbl.textContent;
+  lbl.classList.add('placed');
+  lbl.setAttribute('draggable','false');
+  propDragId = null;
+}
+
+function comprobarProporciones() {
+  var dzs = document.querySelectorAll('.prop-drop-zone');
+  var correct = 0, total = 5, allFilled = true;
+  dzs.forEach(function(dz) {
+    if (!dz.dataset.placed) { allFilled = false; return; }
+    var lbl = document.getElementById(dz.dataset.placed);
+    var texto = lbl ? lbl.textContent : '';
+    var isOk = texto === dz.dataset.correct;
+    if (isOk) { correct++; dz.classList.add('correcto'); }
+    else dz.classList.add('incorrecto');
+  });
+  if (!allFilled) {
+    mostrarFeedback('fb-prop','partial','Coloca todas las etiquetas antes de comprobar.');
+    return;
+  }
+  STATE.s1.prop = { correct: correct, total: total };
+  setBadge('sc-prop', correct, total);
+  mostrarFeedback('fb-prop',
+    correct === total ? 'ok' : correct >= 3 ? 'partial' : 'fail',
+    correct === total
+      ? '✓ ¡Correcto! Conoces bien las proporciones del canon facial.'
+      : correct + '/' + total + ' correctas. Las zonas en rojo tienen la etiqueta equivocada.'
+  );
+  updateProgress();
+}
+
+function resetProporciones() {
+  STATE.s1.prop = null;
+  document.querySelectorAll('.prop-drop-zone').forEach(function(dz){
+    dz.dataset.placed = '';
+    dz.classList.remove('correcto','incorrecto');
+    var orig = dz.id === 'dz1' ? 'zona superior del rostro'
+             : dz.id === 'dz2' ? 'mitad del rostro'
+             : dz.id === 'dz3' ? 'tercio inferior — parte alta'
+             : dz.id === 'dz4' ? 'tercio inferior — centro'
+             : 'base del rostro';
+    dz.innerHTML = '<span style="color:rgba(200,122,90,.5);font-size:.65rem">●</span> ' + orig;
+  });
+  document.querySelectorAll('.prop-label').forEach(function(l){
+    l.classList.remove('placed'); l.setAttribute('draggable','true');
+  });
+  document.getElementById('fb-prop').className = 'feedback';
+  document.getElementById('sc-prop').textContent = '—';
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 3 — COMPARATIVA (texto libre, guardar)
+// ══════════════════════════════════════════════════════════
+function comprobarComparativa() {
+  var campos = ['obs-A1','obs-A2','obs-A3','obs-A4','obs-B1','obs-B2','obs-B3','obs-B4','obs-C1','obs-C2','obs-C3','obs-C4','obs-D1','obs-D2','obs-D3','obs-D4'];
+  var rellenos = 0;
+  campos.forEach(function(id){
+    var el = document.getElementById(id);
+    if (el && el.value.trim().length > 2) rellenos++;
+  });
+  if (rellenos < 6) {
+    mostrarFeedback('fb-comp','partial','Rellena al menos los campos principales de cada pieza antes de guardar.');
+    return;
+  }
+  var obs = {};
+  campos.forEach(function(id){
+    var el = document.getElementById(id);
+    obs[id] = el ? el.value.trim() : '';
+  });
+  STATE.s1.comp = { guardado: true, obs: obs };
+  setBadge('sc-comp', rellenos, campos.length);
+  mostrarFeedback('fb-comp','ok','✓ Observaciones guardadas. La docente las revisará en el panel de informe.');
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 4 — FLUJO FOTOGRAMETRÍA
+// ══════════════════════════════════════════════════════════
+var flujoData = [
+  { titulo: '⛏️ Excavación y hallazgo',
+    texto: 'El equipo excava con cuidado extremo usando herramientas pequeñas (brochas, espátulas). Cada centímetro se fotografía y registra en un plano antes de seguir. Cuando aparece el adobe decorado, el trabajo se ralentiza aún más: un error puede destruir siglos de historia.' },
+  { titulo: '📸 Fotografías desde todos los ángulos',
+    texto: 'Se toman centenares de fotografías solapadas (cada imagen debe compartir al menos un 70% del área con la anterior). El fotógrafo rodea el objeto en espiral, cubriendo todos los ángulos. Cuantas más fotos y mejor calidad, más preciso será el modelo 3D resultante.' },
+  { titulo: '☁️ Nube de puntos 3D',
+    texto: 'El software de fotogrametría (Agisoft Metashape, Reality Capture, o herramientas como Meshy) analiza las fotos y calcula la posición 3D de miles de puntos en el espacio. El resultado es una "nube de puntos": millones de coordenadas XYZ que definen la forma exacta del objeto.' },
+  { titulo: '🧊 Modelo texturizado con Meshy',
+    texto: 'A partir de la nube de puntos se genera una malla poligonal (mesh) que representa la superficie del objeto. Luego se aplica la textura tomada de las fotografías. El resultado es un modelo 3D fotorrealista que puede girarse, medirse y analizarse en un ordenador.' },
+  { titulo: '📄 Archivo STL para impresora 3D',
+    texto: 'El modelo 3D se exporta en formato STL (o OBJ), el estándar que entienden las impresoras 3D. En este paso se puede escalar el objeto (por ejemplo, imprimir una réplica al 50% del tamaño real) y se preparan los soportes necesarios para la impresión.' },
+  { titulo: '🖨️ Réplica física impresa',
+    texto: 'La impresora 3D fabrica la réplica capa a capa. El resultado puede usarse en el aula, exhibirse en un museo, enviarse a investigadores de cualquier parte del mundo o servir para que personas invidentes "vean" la pieza por el tacto. El original se preserva; el conocimiento se democratiza.' },
+];
+var flujoPasosVistos = [];
+
+function mostrarFlujo(idx) {
+  var data = flujoData[idx];
+  var detalle = document.getElementById('flujo-detalle');
+  detalle.innerHTML = '<strong style="color:var(--tx2);font-family:\'Space Mono\',monospace;font-size:.78rem;">' + data.titulo + '</strong><br><br>' + data.texto;
+  detalle.classList.add('activo');
+  // Resaltar paso activo
+  document.querySelectorAll('.flujo-paso').forEach(function(fp,i){
+    fp.classList.toggle('activo', i === idx);
+  });
+  if (flujoPasosVistos.indexOf(idx) === -1) flujoPasosVistos.push(idx);
+  document.getElementById('flujo-progreso').textContent = flujoPasosVistos.length + ' / 6 pasos explorados';
+  STATE.s2.flujo = { vistos: flujoPasosVistos.slice() };
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 5 — CHECKLIST MESHY
+// ══════════════════════════════════════════════════════════
+var checkCompletados = new Array(7).fill(false);
+
+function toggleCheck(el, idx) {
+  checkCompletados[idx] = !checkCompletados[idx];
+  el.classList.toggle('done', checkCompletados[idx]);
+  var total = 7;
+  var done = checkCompletados.filter(Boolean).length;
+  document.getElementById('sc-checklist').textContent = done + ' / ' + total;
+  document.getElementById('check-prog-txt').textContent = done + ' / ' + total + ' pasos completados';
+  document.getElementById('check-prog-fill').style.width = Math.round(done/total*100) + '%';
+  STATE.s2.checklist = { completados: done, total: total, pasos: checkCompletados.slice() };
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 6 — REFLEXIÓN ABIERTA
+// ══════════════════════════════════════════════════════════
+function actualizarChars(el, id) {
+  var restantes = 500 - el.value.length;
+  var el2 = document.getElementById(id);
+  if (el2) el2.textContent = restantes + ' caracteres restantes';
+}
+
+function guardarReflexiones() {
+  var r1 = document.getElementById('ref1').value.trim();
+  var r2 = document.getElementById('ref2').value.trim();
+  var r3 = document.getElementById('ref3').value.trim();
+  var rellenas = [r1,r2,r3].filter(function(r){ return r.length > 10; }).length;
+  if (rellenas < 2) {
+    mostrarFeedback('fb-ref','partial','Responde al menos dos de las tres preguntas antes de guardar.');
+    return;
+  }
+  STATE.s2.ref = { r1: r1, r2: r2, r3: r3, guardado: true };
+  setBadge('sc-ref', rellenas, 3);
+  mostrarFeedback('fb-ref','ok','✓ Reflexiones guardadas. La docente las leerá en su panel de informe.');
+  updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// HELPERS UI
+// ══════════════════════════════════════════════════════════
+function mostrarFeedback(id, tipo, texto) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.className = 'feedback ' + tipo;
+  el.textContent = texto;
+}
+
+function setBadge(id, correct, total) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  var pct = Math.round(correct/total*100);
+  el.textContent = correct + '/' + total + ' — ' + pct + '%';
+  el.style.background = pct===100 ? 'rgba(46,94,46,.2)' : pct>=60 ? 'rgba(139,105,20,.2)' : 'rgba(139,26,26,.2)';
+  el.style.color = pct===100 ? '#A0D8A0' : pct>=60 ? '#D4B860' : '#E08080';
+}
+
+// ══════════════════════════════════════════════════════════
+// SISTEMA DE INFORME
+// ══════════════════════════════════════════════════════════
+var INF_MAPA = [
+  { sesion:'Bloque 1', key:'s1', act:'relieve',   label:'Planos del relieve (exploración)' },
+  { sesion:'Bloque 1', key:'s1', act:'prop',      label:'Proporciones del rostro (drag & drop)' },
+  { sesion:'Bloque 1', key:'s1', act:'comp',      label:'Comparativa escultórica (observaciones)' },
+  { sesion:'Bloque 1', key:'s1', act:'vf',        label:'V/F — vocabulario de escultura' },
+  { sesion:'Bloque 1', key:'s1', act:'clasif',    label:'Clasificar técnicas escultóricas' },
+  { sesion:'Bloque 1', key:'s1', act:'match',     label:'Emparejar material y época' },
+  { sesion:'Bloque 2', key:'s2', act:'flujo',     label:'Flujo fotogrametría (exploración)' },
+  { sesion:'Bloque 2', key:'s2', act:'checklist', label:'Guión Meshy (checklist)' },
+  { sesion:'Bloque 2', key:'s2', act:'ref',       label:'Reflexión final (texto abierto)' },
+];
+
+function infGetResultado(key, act) {
+  var entry = STATE[key][act];
+  if (!entry) return { tipo:'pend', texto:'Pendiente', nota:'—' };
+  // Relieve: zonas exploradas
+  if (act === 'relieve') {
+    var n = entry.zonas ? entry.zonas.length : 0;
+    var t = 'par'; if (n >= 4) t='ok'; if (n === 0) t='pend';
+    return { tipo:t, texto: n+'/4 zonas', nota: Math.round(n/4*100)+'%' };
+  }
+  // Flujo
+  if (act === 'flujo') {
+    var n = entry.vistos ? entry.vistos.length : 0;
+    var t = n >= 6 ? 'ok' : n > 0 ? 'par' : 'pend';
+    return { tipo:t, texto: n+'/6 pasos', nota: Math.round(n/6*100)+'%' };
+  }
+  // Checklist
+  if (act === 'checklist') {
+    var p = Math.round(entry.completados/entry.total*100);
+    return { tipo: p===100?'ok':p>=50?'par':'mal', texto: entry.completados+'/'+entry.total, nota: p+'%' };
+  }
+  // Comparativa (texto libre)
+  if (act === 'comp') {
+    return { tipo:'txt', texto:'Guardado', nota:'Ver panel' };
+  }
+  // Reflexión — texto literal truncado
+  if (act === 'ref') {
+    var rellenas = [entry.r1,entry.r2,entry.r3].filter(function(r){ return r && r.length > 2; }).length;
+    return { tipo:'txt', texto: rellenas+'/3 respondidas', nota: entry.r1 ? '"'+entry.r1.slice(0,60)+(entry.r1.length>60?'…':'')+'"' : '—' };
+  }
+  // Proporciones numéricas
+  if (entry.correct !== undefined) {
+    var p = Math.round(entry.correct/entry.total*100);
+    return { tipo: p===100?'ok':p>=60?'par':'mal', texto:entry.correct+'/'+entry.total, nota:p+'%' };
+  }
+  return { tipo:'pend', texto:'—', nota:'—' };
+}
+
+function infPill(tipo, texto) {
+  return '<span class="inf-pill '+tipo+'">'+texto+'</span>';
+}
+
+function abrirModalAlumno() {
+  // Rellenar tabla
+  var tbody = document.getElementById('alum-tbody');
+  tbody.innerHTML = '';
+  INF_MAPA.forEach(function(row) {
+    var r = infGetResultado(row.key, row.act);
+    var tr = document.createElement('tr');
+    tr.innerHTML = '<td style="font-size:.78rem;color:#888">'+row.sesion+'</td>'
+      +'<td style="font-size:.82rem">'+row.label+'</td>'
+      +'<td>'+infPill(r.tipo,r.texto)+'</td>'
+      +'<td style="font-weight:700;font-size:.82rem">'+r.nota+'</td>';
+    tbody.appendChild(tr);
+  });
+  // Resumen
+  var completadas = INF_MAPA.filter(function(r){ return STATE[r.key][r.act] !== null; }).length;
+  document.getElementById('alum-resumen').textContent =
+    'Actividades completadas: ' + completadas + '/' + INF_MAPA.length;
+  // Aviso
+  var aviso = document.getElementById('alum-aviso');
+  aviso.classList.toggle('visible', completadas < INF_MAPA.length);
+  // Reset código
+  document.getElementById('alum-codigo').classList.remove('visible');
+  document.getElementById('alum-codigo').textContent = '';
+  document.getElementById('btn-copiar').classList.remove('visible');
+  document.getElementById('copy-ok').classList.remove('visible');
+  document.getElementById('alum-overlay').classList.add('open');
+}
+
+function cerrarModalAlumno() {
+  document.getElementById('alum-overlay').classList.remove('open');
+}
+
+function generarCodigo() {
+  var ini = document.getElementById('alum-ini').value.trim();
+  if (!ini) {
+    var inp = document.getElementById('alum-ini');
+    inp.style.borderColor = 'var(--ro)';
+    inp.focus();
+    setTimeout(function(){ inp.style.borderColor = ''; }, 1800);
+    return;
+  }
+  var payload = {
+    v: 1,
+    asignatura: 'Plastica-Turunuelo',
+    iniciales: ini,
+    ts: new Date().toISOString(),
+    state: STATE
+  };
+  var b64 = btoa(unescape(encodeURIComponent(JSON.stringify(payload))));
+  var caja = document.getElementById('alum-codigo');
+  caja.textContent = b64;
+  caja.classList.add('visible');
+  document.getElementById('btn-copiar').classList.add('visible');
+  document.getElementById('copy-ok').classList.remove('visible');
+}
+
+function copiarCodigo() {
+  var texto = document.getElementById('alum-codigo').textContent;
+  if (!texto) return;
+  var fallback = function() {
+    var ta = document.createElement('textarea');
+    ta.value = texto; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    document.getElementById('copy-ok').classList.add('visible');
+    setTimeout(function(){ document.getElementById('copy-ok').classList.remove('visible'); }, 2500);
+  };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(texto).then(function(){
+      document.getElementById('copy-ok').classList.add('visible');
+      setTimeout(function(){ document.getElementById('copy-ok').classList.remove('visible'); }, 2500);
+    }).catch(fallback);
+  } else fallback();
+}
+
+function abrirModalDocente() {
+  document.getElementById('doc-paste').value = '';
+  document.getElementById('doc-resultado').classList.remove('visible');
+  document.getElementById('doc-error').className = 'feedback';
+  document.getElementById('doc-overlay').classList.add('open');
+  setTimeout(function(){ document.getElementById('doc-paste').focus(); }, 120);
+}
+
+function cerrarModalDocente() {
+  document.getElementById('doc-overlay').classList.remove('open');
+}
+
+function decodificarInforme() {
+  var b64 = document.getElementById('doc-paste').value.trim();
+  var errEl = document.getElementById('doc-error');
+  errEl.className = 'feedback';
+  document.getElementById('doc-resultado').classList.remove('visible');
+  if (!b64) { errEl.className='feedback fail'; errEl.textContent='Pega primero el código.'; return; }
+  var payload;
+  try { payload = JSON.parse(decodeURIComponent(escape(atob(b64)))); }
+  catch(e) { errEl.className='feedback fail'; errEl.textContent='⚠️ Código no válido o incompleto.'; return; }
+  if (!payload.state || !payload.iniciales) {
+    errEl.className='feedback fail'; errEl.textContent='⚠️ El formato no corresponde a este recurso.'; return;
+  }
+  // Calcular global
+  var completadas = INF_MAPA.filter(function(r){ return payload.state[r.key] && payload.state[r.key][r.act]; }).length;
+  var fecha = '—';
+  try { fecha = new Date(payload.ts).toLocaleString('es-ES',{dateStyle:'short',timeStyle:'short'}); } catch(e){}
+
+  document.getElementById('doc-alumno-card').innerHTML =
+    '<strong>Iniciales: '+payload.iniciales+'</strong>'
+    +' · '+(payload.asignatura||'')+' · '+fecha
+    +'<br>Actividades completadas: <strong>'+completadas+'/'+INF_MAPA.length+'</strong>';
+
+  // Tabla — cabecera con columna extra para reflexiones
+  var tbody = document.getElementById('doc-tbody');
+  tbody.innerHTML = '';
+  // Actualizar cabecera para incluir columna Respuesta
+  var thead = document.querySelector('#doc-resultado table thead tr');
+  if (thead) thead.innerHTML = '<th>Bloque</th><th>Actividad</th><th>Estado</th><th>Nota / Respuesta</th>';
+
+  INF_MAPA.forEach(function(row) {
+    var entry = payload.state[row.key] && payload.state[row.key][row.act];
+    var r;
+    if (!entry) {
+      r = { tipo:'pend', texto:'Pendiente', nota:'—' };
+    } else {
+      var tmpState = STATE;
+      STATE = payload.state;
+      r = infGetResultado(row.key, row.act);
+      STATE = tmpState;
+    }
+    // Para las reflexiones, añadir fila expandida con texto completo
+    if (row.act === 'ref' && entry && entry.guardado) {
+      var preguntas = [
+        '¿Qué aporta el modelo 3D que la fotografía no da?',
+        '¿Sería suficiente el modelo 3D si el original desapareciera?',
+        '¿La tecnología cambia nuestra relación con el arte y el patrimonio?'
+      ];
+      var keys = ['r1','r2','r3'];
+      // Fila resumen
+      var trRes = document.createElement('tr');
+      trRes.innerHTML = '<td style="font-size:.78rem;color:#888">'+row.sesion+'</td>'
+        +'<td style="font-size:.82rem">'+row.label+'</td>'
+        +'<td>'+infPill(r.tipo,r.texto)+'</td>'
+        +'<td style="font-size:.78rem;color:#666">—</td>';
+      tbody.appendChild(trRes);
+      // Una fila por pregunta con el texto completo
+      preguntas.forEach(function(q, i) {
+        var resp = entry[keys[i]] || '';
+        var tr = document.createElement('tr');
+        tr.style.background = 'var(--papel2)';
+        tr.innerHTML = '<td style="font-size:.72rem;color:#AAA;padding-left:18px">↳ P'+(i+1)+'</td>'
+          +'<td style="font-size:.76rem;color:#888;font-style:italic" colspan="1">'+q+'</td>'
+          +'<td colspan="2" style="font-size:.82rem;color:var(--tinta);line-height:1.5;padding:6px 10px;">'
+          +(resp ? resp : '<span style="color:#AAA;font-style:italic">Sin respuesta</span>')
+          +'</td>';
+        tbody.appendChild(tr);
+      });
+    } else {
+      var tr = document.createElement('tr');
+      tr.innerHTML = '<td style="font-size:.78rem;color:#888">'+row.sesion+'</td>'
+        +'<td style="font-size:.82rem">'+row.label+'</td>'
+        +'<td>'+infPill(r.tipo,r.texto)+'</td>'
+        +'<td style="font-weight:700;font-size:.82rem">'+r.nota+'</td>';
+      tbody.appendChild(tr);
+    }
+  });
+
+  document.getElementById('doc-resultado').classList.add('visible');
+}
+
+// ── Ctrl+Shift+D → panel docente
+document.addEventListener('keydown', function(e) {
+  if (e.ctrlKey && e.shiftKey && e.key === 'D') {
+    e.preventDefault();
+    document.getElementById('alum-overlay').classList.remove('open');
+    abrirModalDocente();
+  }
+});
+
+// ── Cerrar modales al clic en overlay
+document.addEventListener('click', function(e) {
+  if (e.target.id === 'alum-overlay') cerrarModalAlumno();
+  if (e.target.id === 'doc-overlay')  cerrarModalDocente();
+});
+
+// ══════════════════════════════════════════════════════════
+// ACT 4 (B1) — V/F VOCABULARIO ESCULTURA
+// ══════════════════════════════════════════════════════════
+var vfB1Sel = {};  // { idx: 'V'|'F' }
+var vfB1Data = [
+  { txt: 'El relieve es una técnica escultórica en la que las figuras sobresalen de un fondo plano.',
+    r: 'V', expl: 'Correcto. En el relieve, la figura se trabaja sobre una superficie base de la que emerge más o menos según el tipo (alto, bajo, plano).' },
+  { txt: 'El altorrelieve es aquel en que la figura se separa menos del 50% de su grosor total respecto al fondo.',
+    r: 'F', expl: 'Incorrecto. En el altorrelieve la figura sobresale más de la mitad de su volumen. Si sobresale menos, hablamos de bajorrelieve.' },
+  { txt: 'El adobe es un material de construcción fabricado con barro, paja y agua, secado al sol.',
+    r: 'V', expl: 'Correcto. Los relieves de El Turuñuelo están esculpidos directamente sobre paredes de adobe, lo que los hace especialmente frágiles.' },
+  { txt: 'Las esculturas de bulto redondo se contemplan solo desde un punto de vista frontal.',
+    r: 'F', expl: 'Incorrecto. El bulto redondo (escultura exenta) puede contemplarse desde todos los ángulos. Las que tienen un único punto de vista frontal son los relieves.' },
+  { txt: 'La textura es un elemento visual y táctil que describe la superficie de una obra escultórica.',
+    r: 'V', expl: 'Correcto. La textura en escultura puede ser lisa, rugosa, pulida, etc., y afecta tanto al aspecto visual como a la sensación táctil de la obra.' },
+];
+
+function selVF(idx, val) {
+  vfB1Sel[idx] = val;
+  var item = document.getElementById('vfb1-item-'+idx);
+  item.querySelectorAll('.vf-btn').forEach(function(b){ b.classList.remove('v-sel','f-sel'); });
+  var btn = document.getElementById('vfb1-btn-'+idx+'-'+val);
+  if (btn) btn.classList.add(val==='V'?'v-sel':'f-sel');
+}
+
+function comprobarVF() {
+  var correct = 0;
+  vfB1Data.forEach(function(d, i) {
+    var item = document.getElementById('vfb1-item-'+i);
+    var sel = vfB1Sel[i];
+    var expl = item.querySelector('.vf-explain');
+    expl.textContent = d.expl;
+    if (!sel) { item.classList.remove('correct','wrong'); return; }
+    var ok = sel === d.r;
+    if (ok) { correct++; item.classList.add('correct'); item.classList.remove('wrong'); }
+    else    { item.classList.add('wrong');  item.classList.remove('correct'); }
+  });
+  var total = vfB1Data.length;
+  STATE.s1.vf = { correct: correct, total: total };
+  setBadge('sc-vf', correct, total);
+  mostrarFeedback('fb-vf',
+    correct === total ? 'ok' : correct >= 3 ? 'partial' : 'fail',
+    correct + '/' + total + ' correctas.' + (correct===total ? ' ¡Excelente dominio del vocabulario!' : ' Revisa las respuestas en rojo.')
+  );
+  updateProgress();
+}
+
+function resetVF() {
+  vfB1Sel = {};
+  vfB1Data.forEach(function(_,i){
+    var item = document.getElementById('vfb1-item-'+i);
+    item.classList.remove('correct','wrong');
+    item.querySelectorAll('.vf-btn').forEach(function(b){ b.classList.remove('v-sel','f-sel'); });
+    item.querySelector('.vf-explain').textContent = '';
+  });
+  document.getElementById('fb-vf').className='feedback';
+  document.getElementById('sc-vf').textContent='—';
+  STATE.s1.vf = null; updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 5 (B1) — CLASIFICAR TÉCNICAS (drag & drop a 3 cubos)
+// ══════════════════════════════════════════════════════════
+var clasificItems = [
+  { id:'cl0', txt:'Busto en mármol', cat:'bulto' },
+  { id:'cl1', txt:'Relieve en adobe de El Turuñuelo', cat:'relieve' },
+  { id:'cl2', txt:'Figura de cerámica modelada a mano', cat:'bulto' },
+  { id:'cl3', txt:'Máscara fenicia de terracota', cat:'bulto' },
+  { id:'cl4', txt:'Bajorrelieve en piedra caliza', cat:'relieve' },
+  { id:'cl5', txt:'Grabado inciso sobre roca', cat:'grabado' },
+  { id:'cl6', txt:'Petroglifos rupestres', cat:'grabado' },
+  { id:'cl7', txt:'Friso con figuras en un templo', cat:'relieve' },
+];
+var clasificState = {};  // { itemId: 'bulto'|'relieve'|'grabado' }
+
+function dragClasif(e, id) { e.dataTransfer.setData('text/plain', id); }
+
+function dropClasif(e, cat) {
+  e.preventDefault();
+  var id = e.dataTransfer.getData('text/plain');
+  var el = document.getElementById('clasif-chip-'+id);
+  if (!el) return;
+  var zona = document.getElementById('clasif-zona-'+cat);
+  // quitar de zona anterior si estaba
+  var prev = clasificState[id];
+  if (prev) {
+    var prevZona = document.getElementById('clasif-zona-'+prev+'-chips');
+    var cloneEl = document.getElementById('clasif-placed-'+id);
+    if (cloneEl) cloneEl.remove();
+  }
+  // mover a nueva zona
+  var placed = document.createElement('div');
+  placed.id = 'clasif-placed-'+id;
+  placed.className = 'clasif-placed';
+  placed.textContent = el.textContent;
+  placed.setAttribute('draggable','true');
+  placed.addEventListener('dragstart', function(ev){ dragClasif(ev,id); });
+  document.getElementById('clasif-zona-'+cat+'-chips').appendChild(placed);
+  clasificState[id] = cat;
+  el.style.opacity = '.35';
+  e.currentTarget.classList.remove('dragover');
+}
+
+function comprobarClasif() {
+  var correct = 0, checked = 0;
+  clasificItems.forEach(function(item){
+    var cat = clasificState[item.id];
+    if (!cat) return;
+    checked++;
+    var placed = document.getElementById('clasif-placed-'+item.id);
+    if (cat === item.cat) {
+      correct++;
+      if (placed) placed.style.background = 'rgba(46,94,46,.25)';
+    } else {
+      if (placed) placed.style.background = 'rgba(139,26,26,.25)';
+    }
+  });
+  if (checked < clasificItems.length) {
+    mostrarFeedback('fb-clasif','partial','Coloca todos los elementos antes de comprobar. Faltan '+(clasificItems.length-checked)+'.');
+    return;
+  }
+  STATE.s1.clasif = { correct: correct, total: clasificItems.length };
+  setBadge('sc-clasif', correct, clasificItems.length);
+  mostrarFeedback('fb-clasif',
+    correct===clasificItems.length ? 'ok' : correct>=5 ? 'partial' : 'fail',
+    correct+'/'+clasificItems.length+' correctas.'+(correct===clasificItems.length?' ¡Perfecto! Dominas la clasificación de técnicas.':' Los marcados en rojo están en la categoría incorrecta.')
+  );
+  updateProgress();
+}
+
+function resetClasif() {
+  clasificState = {};
+  clasificItems.forEach(function(item){
+    var chip = document.getElementById('clasif-chip-'+item.id);
+    if (chip) chip.style.opacity='1';
+    var placed = document.getElementById('clasif-placed-'+item.id);
+    if (placed) placed.remove();
+  });
+  document.getElementById('fb-clasif').className='feedback';
+  document.getElementById('sc-clasif').textContent='—';
+  STATE.s1.clasif = null; updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// ACT 6 (B1) — MATCHING MATERIAL–ÉPOCA
+// ══════════════════════════════════════════════════════════
+var matchData = [
+  { izq:'Adobe (barro secado al sol)',       der:'El Turuñuelo — s. V a.C.' },
+  { izq:'Piedra caliza',                     der:'Relieves de Osuna — s. V–IV a.C.' },
+  { izq:'Terracota (arcilla cocida)',        der:'Máscaras fenicias — s. VII–V a.C.' },
+  { izq:'Mármol blanco',                     der:'Escultura griega clásica — s. V a.C.' },
+  { izq:'Bronce fundido',                    der:'Dama de Elche (base) — s. V a.C.' },
+];
+var matchSel = { izq: null, der: null };
+var matchDone = {};
+
+function selMatch(lado, idx) {
+  if (matchDone[idx+'-'+lado]) return;
+  // Deseleccionar mismo lado
+  document.querySelectorAll('.match-item.'+lado+'.sel').forEach(function(el){ el.classList.remove('sel'); });
+  matchSel[lado] = idx;
+  document.getElementById('match-'+lado+'-'+idx).classList.add('sel');
+  // Si tenemos ambos lados, evaluar
+  if (matchSel.izq !== null && matchSel.der !== null) {
+    var ok = matchSel.izq === matchSel.der;
+    var elI = document.getElementById('match-izq-'+matchSel.izq);
+    var elD = document.getElementById('match-der-'+matchSel.der);
+    if (ok) {
+      [elI,elD].forEach(function(el){ el.classList.remove('sel'); el.classList.add('matched'); });
+      matchDone[matchSel.izq+'-izq'] = true;
+      matchDone[matchSel.der+'-der'] = true;
+    } else {
+      [elI,elD].forEach(function(el){ el.classList.add('wrong-flash'); });
+      setTimeout(function(){
+        [elI,elD].forEach(function(el){ el.classList.remove('sel','wrong-flash'); });
+      }, 700);
+    }
+    matchSel = { izq: null, der: null };
+    // Comprobar si terminó
+    var total = matchData.length;
+    var done = Object.keys(matchDone).filter(function(k){ return k.endsWith('-izq'); }).length;
+    if (done === total) {
+      STATE.s1.match = { correct: total, total: total };
+      setBadge('sc-match', total, total);
+      mostrarFeedback('fb-match','ok','✓ ¡Todos los pares correctos! Conoces bien los materiales y sus épocas.');
+      updateProgress();
+    } else {
+      var scoreEl = document.getElementById('sc-match');
+      scoreEl.textContent = done+'/'+total+' pares';
+    }
+  }
+}
+
+function resetMatch() {
+  matchSel = { izq: null, der: null };
+  matchDone = {};
+  matchData.forEach(function(_,i){
+    ['izq','der'].forEach(function(lado){
+      var el = document.getElementById('match-'+lado+'-'+i);
+      if (el) el.classList.remove('sel','matched','wrong-flash');
+    });
+  });
+  document.getElementById('fb-match').className='feedback';
+  document.getElementById('sc-match').textContent='—';
+  STATE.s1.match = null; updateProgress();
+}
+
+// ══════════════════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════════════════
+document.addEventListener('DOMContentLoaded', function() {
+  updateProgress();
+});
+</script>
+</body>
+</html>
