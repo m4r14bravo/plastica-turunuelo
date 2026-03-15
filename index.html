@@ -234,8 +234,14 @@ body::before{
 }
 .img-placeholder .ph-desc{font-size:.68rem;color:var(--carbl);max-width:200px;line-height:1.5}
 
-/* Galería de imágenes */
-.galeria{display:grid;gap:14px;margin-bottom:0}
+/* Imagen real sobre placeholder */
+.img-real{
+  position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;border-radius:var(--r);
+  display:none;
+}
+.img-real.loaded{display:block;}
+.galeria-item{position:relative}
 .galeria.col-3{grid-template-columns:repeat(3,1fr)}
 .galeria.col-2{grid-template-columns:repeat(2,1fr)}
 @media(max-width:640px){
@@ -841,28 +847,40 @@ body::before{
     <div class="papel-card dark" style="padding-bottom:24px">
       <div class="card-title">📷 Las caras — imágenes del yacimiento</div>
       <div class="galeria col-3" style="margin-top:4px">
-        <div class="galeria-item" onclick="abrirLightbox('assets/cara-01.jpg','Cara de El Turuñuelo — exposición en el museo')">
-          <div class="img-placeholder">
+        <div class="galeria-item" onclick="abrirLightbox('assets/cara-01.jpeg','Cara de El Turuñuelo — exposición en el museo')">
+          <div class="img-placeholder" id="ph-cara-01">
             <span class="ph-icon">🗿</span>
-            <span class="ph-name">assets/cara-01.jpg</span>
+            <span class="ph-name">assets/cara-01.jpg / .jpeg</span>
             <span class="ph-desc">Foto frontal de una cara en el museo</span>
           </div>
+          <img class="img-real" src="assets/cara-01.jpeg"
+            onload="this.classList.add('loaded');document.getElementById('ph-cara-01').style.display='none';"
+            onerror="var a=this;var s=a.src;if(s.endsWith('.jpeg')){a.src=s.replace('.jpeg','.jpg');}else{a.remove();}"
+            alt="Cara de El Turuñuelo">
           <div class="img-caption">Vista frontal</div>
         </div>
-        <div class="galeria-item" onclick="abrirLightbox('assets/cara-02.jpg','Cara de El Turuñuelo — detalle del relieve en adobe')">
-          <div class="img-placeholder">
+        <div class="galeria-item" onclick="abrirLightbox('assets/cara-02.jpeg','Cara de El Turuñuelo — detalle del relieve en adobe')">
+          <div class="img-placeholder" id="ph-cara-02">
             <span class="ph-icon">🔍</span>
-            <span class="ph-name">assets/cara-02.jpg</span>
+            <span class="ph-name">assets/cara-02.jpg / .jpeg</span>
             <span class="ph-desc">Detalle de otra cara o ángulo diferente</span>
           </div>
+          <img class="img-real" src="assets/cara-02.jpeg"
+            onload="this.classList.add('loaded');document.getElementById('ph-cara-02').style.display='none';"
+            onerror="var a=this;var s=a.src;if(s.endsWith('.jpeg')){a.src=s.replace('.jpeg','.jpg');}else{a.remove();}"
+            alt="Cara de El Turuñuelo — detalle">
           <div class="img-caption">Detalle del relieve</div>
         </div>
         <div class="galeria-item" onclick="abrirLightbox('assets/cara-03.jpg','Caras de El Turuñuelo — sala del museo')">
-          <div class="img-placeholder">
+          <div class="img-placeholder" id="ph-cara-03">
             <span class="ph-icon">🏛️</span>
             <span class="ph-name">assets/cara-03.jpg</span>
             <span class="ph-desc">Tercera cara o conjunto de piezas expuestas</span>
           </div>
+          <img class="img-real" src="assets/cara-03.jpg"
+            onload="this.classList.add('loaded');document.getElementById('ph-cara-03').style.display='none';"
+            onerror="var a=this;var s=a.src;if(s.endsWith('.jpg')){a.src=s.replace('.jpg','.jpeg');}else{a.remove();}"
+            alt="Caras de El Turuñuelo — sala del museo">
           <div class="img-caption">En el museo</div>
         </div>
       </div>
@@ -1023,12 +1041,16 @@ body::before{
         <div class="comp-grid">
           <!-- Pieza 1: El Turuñuelo -->
           <div class="comp-pieza">
-            <div class="comp-img-wrap">
-              <div class="img-placeholder" style="height:200px;min-height:unset">
+            <div class="comp-img-wrap" style="position:relative">
+              <div class="img-placeholder" id="ph-compA" style="height:200px;min-height:unset">
                 <span class="ph-icon">🗿</span>
                 <span class="ph-name">assets/cara-01.jpg</span>
                 <span class="ph-desc">Cara de El Turuñuelo</span>
               </div>
+              <img src="assets/cara-01.jpeg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;"
+                onload="this.style.display='block';document.getElementById('ph-compA').style.display='none';"
+                onerror="var a=this;var s=a.src;if(s.endsWith('.jpeg')){a.src=s.replace('.jpeg','.jpg');}else{a.remove();}"
+                alt="Cara de El Turuñuelo">
             </div>
             <div class="comp-nombre">A · El Turuñuelo (Extremadura, s. V a.C.)</div>
             <table class="comp-tabla">
@@ -1040,12 +1062,16 @@ body::before{
           </div>
           <!-- Pieza 2: Máscara fenicia -->
           <div class="comp-pieza">
-            <div class="comp-img-wrap">
-              <div class="img-placeholder" style="height:200px;min-height:unset">
+            <div class="comp-img-wrap" style="position:relative">
+              <div class="img-placeholder" id="ph-compB" style="height:200px;min-height:unset">
                 <span class="ph-icon">😶</span>
                 <span class="ph-name">assets/comp-fenicia.jpg</span>
                 <span class="ph-desc">Máscara fenicia — Museo de Cartago o similar</span>
               </div>
+              <img src="assets/comp-fenicia.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;"
+                onload="this.style.display='block';document.getElementById('ph-compB').style.display='none';"
+                onerror="var a=this;var s=a.src;if(s.endsWith('.jpg')){a.src=s.replace('.jpg','.jpeg');}else{a.remove();}"
+                alt="Máscara fenicia">
             </div>
             <div class="comp-nombre">B · Máscara fenicia (Cartago, s. VII–V a.C.)</div>
             <table class="comp-tabla">
@@ -1057,12 +1083,16 @@ body::before{
           </div>
           <!-- Pieza 3: Guerrero de Osuna -->
           <div class="comp-pieza">
-            <div class="comp-img-wrap">
-              <div class="img-placeholder" style="height:200px;min-height:unset">
+            <div class="comp-img-wrap" style="position:relative">
+              <div class="img-placeholder" id="ph-compC" style="height:200px;min-height:unset">
                 <span class="ph-icon">⚔️</span>
                 <span class="ph-name">assets/comp-iberica.jpg</span>
                 <span class="ph-desc">Relieve del Guerrero de Osuna (ibérico)</span>
               </div>
+              <img src="assets/comp-iberica.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;"
+                onload="this.style.display='block';document.getElementById('ph-compC').style.display='none';"
+                onerror="var a=this;var s=a.src;if(s.endsWith('.jpg')){a.src=s.replace('.jpg','.jpeg');}else{a.remove();}"
+                alt="Guerrero de Osuna">
             </div>
             <div class="comp-nombre">C · Relieve de Osuna (Ibérico, s. V–IV a.C.)</div>
             <table class="comp-tabla">
@@ -1080,12 +1110,16 @@ body::before{
           </div>
           <!-- Pieza 4: Kouros de Náucratis -->
           <div class="comp-pieza">
-            <div class="comp-img-wrap">
-              <div class="img-placeholder" style="height:200px;min-height:unset">
+            <div class="comp-img-wrap" style="position:relative">
+              <div class="img-placeholder" id="ph-compD" style="height:200px;min-height:unset">
                 <span class="ph-icon">🏺</span>
                 <span class="ph-name">assets/comp-griega.jpg</span>
                 <span class="ph-desc">Kouros de Náucratis — escultura griega arcaica</span>
               </div>
+              <img src="assets/comp-griega.jpg" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;"
+                onload="this.style.display='block';document.getElementById('ph-compD').style.display='none';"
+                onerror="var a=this;var s=a.src;if(s.endsWith('.jpg')){a.src=s.replace('.jpg','.jpeg');}else{a.remove();}"
+                alt="Kouros de Náucratis">
             </div>
             <div class="comp-nombre">D · Kouros de Náucratis (Grecia arcaica, s. VI a.C.)</div>
             <table class="comp-tabla">
@@ -2375,3 +2409,4 @@ document.addEventListener('DOMContentLoaded', function() {
 </script>
 </body>
 </html>
+
