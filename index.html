@@ -1459,31 +1459,21 @@ body::before{
         </div>
         <!-- Imagen del modelo Meshy -->
         <div style="margin-top:20px;display:grid;grid-template-columns:1fr 1fr;gap:14px">
-          <div style="position:relative;min-height:200px;background:var(--bg2);border-radius:4px;overflow:hidden;cursor:pointer;"
+          <div id="wrap-meshy-modelo" style="border-radius:4px;overflow:hidden;cursor:pointer;min-height:200px;background:var(--bg2);"
                onclick="abrirLightbox('assets/meshy-modelo.jpg','Modelo 3D de la cara — generado con Meshy')">
             <div class="img-placeholder" id="ph-meshy-modelo">
               <span class="ph-icon">🧊</span>
               <span class="ph-name">assets/meshy-modelo.jpg</span>
               <span class="ph-desc">Modelo 3D texturizado de la cara generado con Meshy</span>
             </div>
-            <img src="assets/meshy-modelo.jpg"
-              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;"
-              onload="this.style.display='block';document.getElementById('ph-meshy-modelo').style.display='none';"
-              onerror="var a=this;var s=a.src;if(s.endsWith('.jpg')){a.src=s.replace('.jpg','.jpeg');}else{a.remove();}"
-              alt="Modelo 3D Meshy">
           </div>
-          <div style="position:relative;min-height:200px;background:var(--bg2);border-radius:4px;overflow:hidden;cursor:pointer;"
+          <div id="wrap-meshy-proceso" style="border-radius:4px;overflow:hidden;cursor:pointer;min-height:200px;background:var(--bg2);"
                onclick="abrirLightbox('assets/meshy-proceso.jpg','Proceso de generación del modelo — Meshy')">
             <div class="img-placeholder" id="ph-meshy-proceso">
               <span class="ph-icon">☁️</span>
               <span class="ph-name">assets/meshy-proceso.jpg</span>
               <span class="ph-desc">Vista del proceso de generación — nube de puntos o interfaz Meshy</span>
             </div>
-            <img src="assets/meshy-proceso.jpg"
-              style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none;"
-              onload="this.style.display='block';document.getElementById('ph-meshy-proceso').style.display='none';"
-              onerror="var a=this;var s=a.src;if(s.endsWith('.jpg')){a.src=s.replace('.jpg','.jpeg');}else{a.remove();}"
-              alt="Proceso Meshy">
           </div>
         </div>
         <div class="feedback" id="fb-flujo"></div>
@@ -2417,13 +2407,36 @@ function resetMatch() {
 }
 
 // ══════════════════════════════════════════════════════════
+// CARGA DE IMÁGENES — reemplaza placeholder cuando carga
+// ══════════════════════════════════════════════════════════
+function cargarImagen(wrapId, phId, src, caption) {
+  var img = new Image();
+  img.style.cssText = 'width:100%;height:200px;object-fit:cover;display:block;border-radius:4px;';
+  img.alt = caption || '';
+  img.onload = function() {
+    var ph = document.getElementById(phId);
+    var wrap = document.getElementById(wrapId);
+    if (ph) ph.style.display = 'none';
+    if (wrap) wrap.insertBefore(img, wrap.firstChild);
+  };
+  img.onerror = function() {
+    // probar extensión alternativa
+    var alt = src.endsWith('.jpg') ? src.replace('.jpg','.jpeg') : src.replace('.jpeg','.jpg');
+    if (img.src.indexOf(alt) === -1) {
+      img.src = alt;
+    }
+  };
+  img.src = src;
+}
+
+// ══════════════════════════════════════════════════════════
 // INIT
 // ══════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', function() {
   updateProgress();
+  cargarImagen('wrap-meshy-modelo', 'ph-meshy-modelo', 'assets/meshy-modelo.jpg', 'Modelo 3D Meshy');
+  cargarImagen('wrap-meshy-proceso', 'ph-meshy-proceso', 'assets/meshy-proceso.jpg', 'Proceso Meshy');
 });
 </script>
 </body>
 </html>
-
-
